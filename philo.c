@@ -6,7 +6,7 @@
 /*   By: daniel149afonso <daniel149afonso@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 15:09:20 by daniel149af       #+#    #+#             */
-/*   Updated: 2025/02/26 16:16:11 by daniel149af      ###   ########.fr       */
+/*   Updated: 2025/02/26 18:24:46 by daniel149af      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,17 +29,31 @@ void    *philosopher(void *arg)
     
     pthread_mutex_lock(&fork_mutex);
     printf("Le philosophe mange 🍝\n");
-    sleep(10); // temps du repas
+    sleep(5); // temps du repas
     printf("Le philosophe a fini de manger et repose la fourchette\n");
     pthread_mutex_unlock(&fork_mutex);
 
     return (NULL);
 }
 
-int main(void)
+void    create_philo(int nb)
+{
+    int i;
+
+    i = 0;
+    while (nb > 0)
+    {
+        pthread_t   philo1;
+        nb--;
+    }
+        
+}
+
+int main(int argc, char **argv)
 {
     pthread_t   philo1, philo2;
     
+    create_philo(argc);
     pthread_mutex_init(&fork_mutex, NULL);
 
     pthread_create(&philo1, NULL, &philosopher, NULL);
