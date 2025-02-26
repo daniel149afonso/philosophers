@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philo.c                                            :+:      :+:    :+:   */
+/*   philo_2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: daniel149afonso <daniel149afonso@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 15:09:20 by daniel149af       #+#    #+#             */
-/*   Updated: 2025/02/26 18:24:46 by daniel149af      ###   ########.fr       */
+/*   Updated: 2025/02/26 19:42:19 by daniel149af      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,23 +14,15 @@
 
 pthread_mutex_t fork_mutex;
 
-// void    philo(int philo_N, int dieT, int eatT, int sleepT)
-// {
-//     int fork;
-//     // if (philo_N == 1)
-//     //     fork
-    
-// }
-
-void    *philosopher(void *arg)
+void    *philosophers(void *arg)
 {
-    (void)arg;
-    printf("Le philosophe veut manger...\n");
+    int id = *(int *)arg;
+    printf("Le philosophe %d veut manger...\n", id);
     
     pthread_mutex_lock(&fork_mutex);
-    printf("Le philosophe mange 🍝\n");
+    printf("Le philosophe %d mange 🍝\n", id);
     sleep(5); // temps du repas
-    printf("Le philosophe a fini de manger et repose la fourchette\n");
+    printf("Le philosophe %d a fini de manger et repose la fourchette\n", id);
     pthread_mutex_unlock(&fork_mutex);
 
     return (NULL);
@@ -38,33 +30,29 @@ void    *philosopher(void *arg)
 
 void    create_philo(int nb)
 {
-    int i;
+    t_philo philo;
 
-    i = 0;
-    while (nb > 0)
+    for (int i = 0; i < nb; i++)
     {
-        pthread_t   philo1;
-        nb--;
-    }
         
+        pthread_create(&philosopher[i], NULL, &philosophers, &ids[i]);
+    }
+    
+    for (int i = 0; i < nb; i++)
+    {
+        pthread_join(philosopher[i], NULL);
+    }
+    
 }
 
 int main(int argc, char **argv)
 {
-    pthread_t   philo1, philo2;
-    
-    create_philo(argc);
-    pthread_mutex_init(&fork_mutex, NULL);
-
-    pthread_create(&philo1, NULL, &philosopher, NULL);
-    pthread_create(&philo2, NULL, &philosopher, NULL);
-    
-    pthread_join(philo1, NULL);
-    pthread_join(philo2, NULL);
-
+    (void)argc;
+    int  nb = atoi(argv[1]);
+    while (1)
+    {
+        create_philo(nb);
+    }
     pthread_mutex_destroy(&fork_mutex);
-    // if (argc != 5)
-    //     return ;
-    // philo(argv[2],argv[3],argv[4],argv[5]);
     return (0);
 }
