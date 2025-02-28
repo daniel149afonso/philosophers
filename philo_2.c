@@ -6,41 +6,53 @@
 /*   By: daafonso <daafonso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 15:09:20 by daniel149af       #+#    #+#             */
-/*   Updated: 2025/02/26 22:31:25 by daafonso         ###   ########.fr       */
+/*   Updated: 2025/02/27 19:58:28 by daafonso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-pthread_mutex_t fork_mutex;
-
 void	*philosophers(void *arg)
 {
-	int	*id;
+	t_philo	*philo;
 
-	id = NULL;
-	id = (int *)arg;
-	printf("Le philosophe %d veut manger...\n", (*id));
-	pthread_mutex_lock(&fork_mutex);
-	printf("Le philosophe %d mange 🍝\n", (*id));
-	sleep(5);
-	printf("Le philosophe %d a fini de manger et repose la fourchette\n", (*id));
-	pthread_mutex_unlock(&fork_mutex);
+	philo = (t_philo *)arg;
+	printf("Le philo %d pense 🧠\n", philo->id);
+	sleep(6);
+	printf("Le philo %d veut manger...\n", philo->id);
+	pthread_mutex_lock(&philo->left_fork->mutex);
+	pthread_mutex_lock(&philo->right_fork->mutex);
+	printf("Le philo %d mange 🍝\n", philo->id);
+	sleep(6);
+	printf("Le philo %d a fini de manger et repose la fourchette\n", philo->id);
+	pthread_mutex_unlock(&philo->left_fork->mutex);
+	pthread_mutex_unlock(&philo->right_fork->mutex);
+	printf("Le philo %d dort\n", philo->id);
+	sleep(6);
+	printf("Le philo %d a fini de dormir\n", philo->id);
 	return (NULL);
 }
 
 void	create_philo(int nb_philo)
 {
-	t_philo	philo[nb_philo];
 	int		i;
-	int		nb_fork;
+	t_philo	philo[nb_philo];
+	t_fork	fork[nb_philo];
 
 	i = 0;
-	nb_fork = nb_philo ;
+	while (i < nb_philo)
+	{
+		fork[i].fork_id = i;
+		pthread_mutex_init(&fork[i].mutex, NULL);
+		i++;
+	}
+	i = 0;
 	while (i < nb_philo)
 	{
 		philo[i].id = i;
-		pthread_create(&philo[i].thread_id, NULL, &philosophers, &philo[i].id);
+		philo[i].left_fork = &fork[i];
+		philo[i].right_fork = &fork[(i + 1) % nb_philo];
+		pthread_create(&philo[i].thread_id, NULL, &philosophers, &philo[i]);
 		i++;
 	}
 	i = 0;
@@ -53,12 +65,20 @@ void	create_philo(int nb_philo)
 
 int	main(int argc, char **argv)
 {
+	int	nb;
+
 	(void)argc;
-	int  nb = atoi(argv[1]);
+	if (argc != 2)
+	{
+		printf("Number of philosophers is required!\n");
+		return (1);
+	}
+	nb = atoi(argv[1]);//ATTENTION ne prend pas en compte les overflow de int 
+	printf("%d\n", nb);
 	while (1)
 	{
 		create_philo(nb);
 	}
-	pthread_mutex_destroy(&fork_mutex);
 	return (0);
 }
+//fork[(i + 1)% nb_philo] //pour que la derniere foruchette pointe sur la 1ere

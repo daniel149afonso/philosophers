@@ -6,7 +6,7 @@
 /*   By: daafonso <daafonso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 15:09:56 by daniel149af       #+#    #+#             */
-/*   Updated: 2025/02/26 21:22:43 by daafonso         ###   ########.fr       */
+/*   Updated: 2025/02/27 19:45:24 by daafonso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,25 +28,22 @@ typedef enum s_bool
 	true
 }	t_bool;
 
-//MUTEX
-typedef pthread_mutex_t	t_mtx;
-
 //FORK
 typedef struct s_fork
 {
-	t_mtx	fork;
-	int		fork_id;
+	int				fork_id;
+	pthread_mutex_t	mutex;
 }	t_fork;
 
 //PHILO
 typedef struct s_philo
 {
-	int		id;
-	long	meals_counter;
-	t_bool	full;
-	long	last_meal_time; // time passed after last meal
-	t_fork	left_fork;
-	t_fork	right_fork;
-	pthread_t	thread_id; // a philo is a thread
+	int			id;
+	pthread_t	thread_id;
+	t_fork		*left_fork;
+	t_fork		*right_fork;
+	long		meals_counter;
+	t_bool		full;
+	long		last_meal_time;
 }	t_philo;
 #endif
