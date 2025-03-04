@@ -6,7 +6,7 @@
 /*   By: daniel149afonso <daniel149afonso@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 15:09:20 by daniel149af       #+#    #+#             */
-/*   Updated: 2025/03/03 04:01:36 by daniel149af      ###   ########.fr       */
+/*   Updated: 2025/03/04 03:43:52 by daniel149af      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,17 +54,16 @@ void	*start_routine(void *arg)
 	return (NULL);
 }
 
-void	ft_create_philo(int nb_philo)
+void	ft_create_philo(t_table *table)
 {
 	int				i;
 	int				turn;
-	t_philo			philo[nb_philo];
-	t_fork			forks[nb_philo];
+	t_philo			philo[table->nb_philo];
+	t_fork			forks[table->nb_philo];
 
 	turn = 0;
 	i = 0;
-
-	while (i < nb_philo)
+	while (i < table->nb_philo)
 	{
 		forks[i].fork_id = i;
 		pthread_mutex_init(&forks[i].mutex, NULL);
@@ -72,50 +71,51 @@ void	ft_create_philo(int nb_philo)
 		i++;
 	}
 	i = 0;
-	while (i < nb_philo)
+	while (i < table->nb_philo)
 	{
 		philo[i].id = i;
 		philo[i].left_fork = &forks[i];
-		philo[i].right_fork = &forks[(i + 1) % nb_philo];
+		philo[i].right_fork = &forks[(i + 1) % table->nb_philo];
 		philo[i].turn = &turn;
-		philo[i].nb_philo = nb_philo;
 		pthread_create(&philo[i].thread_id, NULL, &start_routine, &philo[i]);
 		i++;
 	}
 	i = 0;
-	while (i < nb_philo)
+	while (i < table->nb_philo)
 	{
 		pthread_join(philo[i].thread_id, NULL);
 		i++;
 	}
 	i = 0;
-	while (i < nb_philo)
+	while (i < table->nb_philo)
 	{
 		pthread_mutex_destroy(&forks[i].mutex);
 		pthread_mutex_destroy(&philo[i].turn_mutex);
 		i++;
 	}
-
 }
 
 int	main(int argc, char **argv)
 {
-	int		nb_philo;
+	t_table	*table;
 
-	(void)argc;
-	if (argc != 2)
+	table = malloc(sizeof(t_table));
+	if (!table)
+		return (ft_error("Error: Failed to allocate table\n"));
+	memset(table, 0, sizeof(t_table));
+	if (argc < 2)
 	{
 		printf("Error: Number of philosophers is required!\n");
 		return (1);
 	}
-	nb_philo = atoi(argv[1]);//ATTENTION ne prend pas en compte les overflow de int 
-	if (nb_philo < 2)
+	ft_init_table(table, argv, argc);
+	if (table->nb_philo < 2)
 	{
 		printf("Error: Minimum 2 philosophers are required.\n");
 		return (1);
 	}
 	while (1)
-		ft_create_philo(nb_philo);
+		ft_create_philo(table);
 	return (0);
 }
 //Rappel : Un mutex protège une section de code, pas une variable
