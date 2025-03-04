@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: daniel149afonso <daniel149afonso@studen    +#+  +:+       +#+        */
+/*   By: daafonso <daafonso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 15:09:56 by daniel149af       #+#    #+#             */
-/*   Updated: 2025/03/03 19:35:36 by daniel149af      ###   ########.fr       */
+/*   Updated: 2025/03/04 21:15:39 by daafonso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@
 # include <limits.h> // INT_MAX ?????
 # include <string.h> //memset
 
-# define INT_MAX			2147483647
-# define INT_MAX_LENGTH		10
+//PREVIOUS DEFINITION OF TABLE
+typedef struct s_table	t_table;
 
 //BOOL
 typedef enum s_bool
@@ -43,7 +43,6 @@ typedef struct s_fork
 typedef struct s_philo
 {
 	int					id;
-	int					*turn;
 	long				meals_counter; //count nb meals eaten
 	long				last_meal_time;// time passed after last meal
 	t_fork				*left_fork;
@@ -57,6 +56,7 @@ typedef struct s_philo
 //TABLE
 typedef struct s_table
 {
+	int		turn;
 	long	nb_philo;
 	long	time_to_die;
 	long	time_to_eat;
@@ -66,9 +66,24 @@ typedef struct s_table
 	t_philo	*philos; //array philos
 }	t_table;
 
+
+//MAIN
+void	*start_routine(void *arg);
+
 //INIT
-void	ft_init_table(t_table *table, char *argv, int argc);
+void	ft_init_table(t_table **table, char **argv, int argc);
+void	ft_init_forks_and_mutexes(t_table *table, int i);
+void	ft_init_philos_and_threads(t_table *table, int i);
+void	ft_join_thread(t_table *table, int i);
+void	ft_destroy_mutex(t_table *table, int i);
+
+//ASSIGN ARRAY
+void	ft_assign_philos(t_table *table, t_philo *philos);
+void	ft_assign_forks(t_table *table, t_fork *forks);
+
+//ALLOCATE
+int		ft_alloc_struct_in_table(t_table **table, long nb_philo);
 
 //ERROR
-int	ft_error(char *msg);
+int		ft_error(char *msg);
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: daniel149afonso <daniel149afonso@studen    +#+  +:+       +#+        */
+/*   By: daafonso <daafonso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 15:09:20 by daniel149af       #+#    #+#             */
-/*   Updated: 2025/03/04 03:43:52 by daniel149af      ###   ########.fr       */
+/*   Updated: 2025/03/04 21:38:05 by daafonso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,17 @@ void	*start_routine(void *arg)
 {
 	t_philo		*philo;
 	static int	count = 0;
+	long		nb_philo;
 
 	philo = (t_philo *)arg;
+	nb_philo = philo->table->nb_philo;
 	printf("Le philo %d pense 🧠\n", philo->id);
 	sleep(6);
 	while (1)
 	{
 		pthread_mutex_lock(&philo->turn_mutex);
-		if ((*philo->turn == 0 && philo->id % 2 == 0)
-			|| (*philo->turn == 1 && philo->id % 2 != 0))
+		if ((philo->table->turn == 0 && philo->id % 2 == 0)
+			|| (philo->table->turn == 1 && philo->id % 2 != 0))
 		{
 			pthread_mutex_unlock(&philo->turn_mutex);
 			break ;
@@ -44,78 +46,50 @@ void	*start_routine(void *arg)
 	sleep(6);
 	pthread_mutex_lock(&philo->turn_mutex);
 	count++;
-	if ((philo->id % 2 == 0 && *philo->turn == 0 && count == (philo->nb_philo + 1) / 2) \
-	|| (philo->id % 2 != 0 && *philo->turn == 1 && count == philo->nb_philo / 2)) 
+	if ((philo->id % 2 == 0 && philo->table->turn == 0 && count == (nb_philo + 1) / 2)
+		|| (philo->id % 2 != 0 && philo->table->turn == 1 && count == nb_philo / 2))
 	{
-		*philo->turn = 1 - *philo->turn; // 🔄 Change le tour
+		philo->table->turn = 1 - philo->table->turn; // 🔄 Change le tour
 		count = 0;
 	}
 	pthread_mutex_unlock(&philo->turn_mutex);
 	return (NULL);
 }
 
-void	ft_create_philo(t_table *table)
+void	philosophers(t_table *table)
 {
 	int				i;
-	int				turn;
-	t_philo			philo[table->nb_philo];
-	t_fork			forks[table->nb_philo];
 
-	turn = 0;
 	i = 0;
-	while (i < table->nb_philo)
-	{
-		forks[i].fork_id = i;
-		pthread_mutex_init(&forks[i].mutex, NULL);
-		pthread_mutex_init(&philo[i].turn_mutex, NULL);
-		i++;
-	}
-	i = 0;
-	while (i < table->nb_philo)
-	{
-		philo[i].id = i;
-		philo[i].left_fork = &forks[i];
-		philo[i].right_fork = &forks[(i + 1) % table->nb_philo];
-		philo[i].turn = &turn;
-		pthread_create(&philo[i].thread_id, NULL, &start_routine, &philo[i]);
-		i++;
-	}
-	i = 0;
-	while (i < table->nb_philo)
-	{
-		pthread_join(philo[i].thread_id, NULL);
-		i++;
-	}
-	i = 0;
-	while (i < table->nb_philo)
-	{
-		pthread_mutex_destroy(&forks[i].mutex);
-		pthread_mutex_destroy(&philo[i].turn_mutex);
-		i++;
-	}
+	ft_init_forks_and_mutexes(table, i);
+	ft_init_philos_and_threads(table, i);
+	ft_join_thread(table, i);
+	ft_destroy_mutex(table, i);
 }
 
 int	main(int argc, char **argv)
 {
 	t_table	*table;
 
-	table = malloc(sizeof(t_table));
-	if (!table)
-		return (ft_error("Error: Failed to allocate table\n"));
-	memset(table, 0, sizeof(t_table));
+	table = NULL;
 	if (argc < 2)
 	{
 		printf("Error: Number of philosophers is required!\n");
 		return (1);
 	}
-	ft_init_table(table, argv, argc);
+	ft_init_table(&table, argv, argc);
+	if (table == NULL)
+	{
+		printf("Table est NULL");
+		exit(EXIT_FAILURE);
+	}
 	if (table->nb_philo < 2)
 	{
 		printf("Error: Minimum 2 philosophers are required.\n");
 		return (1);
 	}
 	while (1)
-		ft_create_philo(table);
+		philosophers(table);
 	return (0);
 }
 //Rappel : Un mutex protège une section de code, pas une variable
