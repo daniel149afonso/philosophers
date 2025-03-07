@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_allocate_memory.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: daafonso <daafonso@student.42.fr>          +#+  +:+       +#+        */
+/*   By: daniel149afonso <daniel149afonso@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 17:54:12 by daafonso          #+#    #+#             */
-/*   Updated: 2025/03/04 22:09:05 by daafonso         ###   ########.fr       */
+/*   Updated: 2025/03/05 15:39:06 by daniel149af      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "../includes/philo.h"
 
 int	ft_alloc_struct_in_table(t_table **table, long nb_philo)
 {

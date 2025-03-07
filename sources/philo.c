@@ -3,56 +3,77 @@
 /*                                                        :::      ::::::::   */
 /*   philo.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: daafonso <daafonso@student.42.fr>          +#+  +:+       +#+        */
+/*   By: daniel149afonso <daniel149afonso@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 15:09:20 by daniel149af       #+#    #+#             */
-/*   Updated: 2025/03/04 21:38:05 by daafonso         ###   ########.fr       */
+/*   Updated: 2025/03/07 00:44:41 by daniel149af      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "../includes/philo.h"
 
 void	*start_routine(void *arg)
 {
 	t_philo		*philo;
-	static int	count = 0;
 	long		nb_philo;
 
 	philo = (t_philo *)arg;
 	nb_philo = philo->table->nb_philo;
-	printf("Le philo %d pense 🧠\n", philo->id);
-	sleep(6);
+	if (philo->meals_counter == philo->table->nb_limit_meals)
+		return (NULL);
+	printf("Le philo %d commence la journée ☀️\n", philo->id);
+	sleep(1);
+	//Attendre son tour
 	while (1)
 	{
-		pthread_mutex_lock(&philo->turn_mutex);
-		if ((philo->table->turn == 0 && philo->id % 2 == 0)
-			|| (philo->table->turn == 1 && philo->id % 2 != 0))
+		//pthread_mutex_lock(&philo->table->turn_mutex);
+		if ((philo->table->turn == 0 && philo->id % 2 != 0)
+			|| (philo->table->turn == 1 && philo->id % 2 == 0))
 		{
-			pthread_mutex_unlock(&philo->turn_mutex);
+			pthread_mutex_unlock(&philo->table->turn_mutex);
 			break ;
 		}
-		pthread_mutex_unlock(&philo->turn_mutex);
-		sleep(6);
+		//pthread_mutex_unlock(&philo->table->turn_mutex);
+		sleep(2);
 	}
-	printf("Le philo %d veut manger...\n", philo->id);
-	pthread_mutex_lock(&philo->left_fork->mutex);
-	pthread_mutex_lock(&philo->right_fork->mutex);
+	if (philo->id == nb_philo && philo->id % 2 != 0)
+	{
+		printf("Le philo %d est le dernier impair et attend...\n", philo->id);
+		sleep(2);
+	}
+	//Prendre les fourchettes
+	//printf("Le philo %d veut manger...\n", philo->id);
+	if (philo->id % 2 != 0)
+	{
+		pthread_mutex_lock(&philo->left_fork->mutex);
+		pthread_mutex_lock(&philo->right_fork->mutex);
+	}
+	else
+	{
+		pthread_mutex_lock(&philo->right_fork->mutex);
+		pthread_mutex_lock(&philo->left_fork->mutex);
+	}
 	printf("Le philo %d mange 🍝\n", philo->id);
-	sleep(6);
+	sleep(5);
 	printf("Le philo %d a fini de manger et repose la fourchette\n", philo->id);
 	pthread_mutex_unlock(&philo->left_fork->mutex);
 	pthread_mutex_unlock(&philo->right_fork->mutex);
+	philo->meals_counter++;
+	//Dormir et penser
 	printf("Le philo %d dort\n", philo->id);
-	sleep(6);
-	pthread_mutex_lock(&philo->turn_mutex);
-	count++;
-	if ((philo->id % 2 == 0 && philo->table->turn == 0 && count == (nb_philo + 1) / 2)
-		|| (philo->id % 2 != 0 && philo->table->turn == 1 && count == nb_philo / 2))
+	sleep(5);
+	printf("Le philo %d pense 🧠\n", philo->id);
+	sleep(5);
+	//Syncrhonisation des tours
+	pthread_mutex_lock(&philo->table->turn_mutex);
+	philo->table->count++;
+	if ((philo->id % 2 != 0 && philo->table->turn == 0 && philo->table->count == (nb_philo + 1) / 2)
+		|| (philo->id % 2 == 0 && philo->table->turn == 1 && philo->table->count == nb_philo / 2))
 	{
 		philo->table->turn = 1 - philo->table->turn; // 🔄 Change le tour
-		count = 0;
+		philo->table->count = 0;
 	}
-	pthread_mutex_unlock(&philo->turn_mutex);
+	pthread_mutex_unlock(&philo->table->turn_mutex);
 	return (NULL);
 }
 

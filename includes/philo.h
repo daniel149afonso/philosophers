@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: daafonso <daafonso@student.42.fr>          +#+  +:+       +#+        */
+/*   By: daniel149afonso <daniel149afonso@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 15:09:56 by daniel149af       #+#    #+#             */
-/*   Updated: 2025/03/04 21:15:39 by daafonso         ###   ########.fr       */
+/*   Updated: 2025/03/06 15:27:46 by daniel149af      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,20 +50,21 @@ typedef struct s_philo
 	t_bool				full;//if philo has eaten the max meals
 	t_table				*table;
 	pthread_t			thread_id;
-	pthread_mutex_t		turn_mutex;
 }	t_philo;
 
 //TABLE
 typedef struct s_table
 {
-	int		turn;
-	long	nb_philo;
-	long	time_to_die;
-	long	time_to_eat;
-	long	time_to_sleep;
-	long	nb_limit_meals;//[5]
-	t_fork	*forks; // array forks
-	t_philo	*philos; //array philos
+	int					turn;
+	int					count;
+	long				nb_philo;
+	long				time_to_die;
+	long				time_to_eat;
+	long				time_to_sleep;
+	long				nb_limit_meals;//[5]
+	t_fork				*forks; // array forks
+	t_philo				 *philos; //array philos
+	pthread_mutex_t		turn_mutex;
 }	t_table;
 
 
