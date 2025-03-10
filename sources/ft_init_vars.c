@@ -6,27 +6,26 @@
 /*   By: daafonso <daafonso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 18:49:16 by daniel149af       #+#    #+#             */
-/*   Updated: 2025/03/10 19:29:06 by daafonso         ###   ########.fr       */
+/*   Updated: 2025/03/10 21:14:47 by daafonso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
 
-void	ft_init_table(t_table **table, char **argv, int argc)
+void	ft_init_table(t_table **table, char **argv)
 {
 	long	nb_philo;
 
-	(void)argc;
-	nb_philo = atol(argv[1]); //a checker le depassement de int avec atol
+	nb_philo = ft_atol_v2(argv[1], *table);
 	if (ft_alloc_struct_in_table(table, nb_philo) != 0 || !(*table))
 	{
 		printf("Error: Failed to allocate memory for table.\n");
 		exit(1);
 	}
-	(*table)->time_to_die = atol(argv[2]);
-	(*table)->time_to_eat = atol(argv[3]);
-	(*table)->time_to_sleep = atol(argv[4]);
-	(*table)->nb_limit_meals = atol(argv[5]);
+	(*table)->time_to_die = ft_atol_v2(argv[2], *table);
+	(*table)->time_to_eat = ft_atol_v2(argv[3], *table);
+	(*table)->time_to_sleep = ft_atol_v2(argv[4], *table);
+	(*table)->nb_limit_meals = ft_atol_v2(argv[5], *table);
 	(*table)->nb_philo = nb_philo;
 }
 
