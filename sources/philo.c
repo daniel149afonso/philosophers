@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: daniel149afonso <daniel149afonso@studen    +#+  +:+       +#+        */
+/*   By: daafonso <daafonso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 15:09:20 by daniel149af       #+#    #+#             */
-/*   Updated: 2025/03/07 00:44:41 by daniel149af      ###   ########.fr       */
+/*   Updated: 2025/03/07 16:47:41 by daafonso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ void	*start_routine(void *arg)
 
 	philo = (t_philo *)arg;
 	nb_philo = philo->table->nb_philo;
-	if (philo->meals_counter == philo->table->nb_limit_meals)
-		return (NULL);
+	// if (philo->meals_counter == philo->table->nb_limit_meals)
+	// 	return (NULL);
 	printf("Le philo %d commence la journée ☀️\n", philo->id);
 	sleep(1);
 	//Attendre son tour

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_init_vars.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: daniel149afonso <daniel149afonso@studen    +#+  +:+       +#+        */
+/*   By: daafonso <daafonso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 18:49:16 by daniel149af       #+#    #+#             */
-/*   Updated: 2025/03/07 15:07:06 by daniel149af      ###   ########.fr       */
+/*   Updated: 2025/03/07 16:44:47 by daafonso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,10 @@ void	ft_init_table(t_table **table, char **argv, int argc)
 		printf("Error: Failed to allocate memory for table.\n");
 		exit(1);
 	}
-	(*table)->time_to_die = atol(argv[2]);
-	(*table)->time_to_die = atol(argv[3]);
-	(*table)->time_to_die = atol(argv[4]);
-	(*table)->time_to_die = atol(argv[5]);
+	// (*table)->time_to_die = atol(argv[2]);
+	// (*table)->time_to_eat = atol(argv[3]);
+	// (*table)->time_to_sleep = atol(argv[4]);
+	// (*table)->nb_limit_meals = atol(argv[5]);
 	(*table)->nb_philo = nb_philo;
 }
 
