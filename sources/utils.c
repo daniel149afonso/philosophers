@@ -1,33 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_error.c                                         :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: daniel149afonso <daniel149afonso@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/03 19:10:38 by daniel149af       #+#    #+#             */
-/*   Updated: 2025/03/10 17:22:13 by daniel149af      ###   ########.fr       */
+/*   Created: 2025/03/09 17:50:01 by daniel149af       #+#    #+#             */
+/*   Updated: 2025/03/10 16:08:14 by daniel149af      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
 
-void	ft_free_table(t_table *table);
-
-int	ft_error(char *msg, t_table *table)
+long	get_current_time_ms(void)
 {
-	if (table)
-		ft_free_table(table);
-	printf("%s", msg);
-	return (1);
-}
+	struct timeval	time;
+	long			current_time;
 
-void	ft_free_table(t_table *table)
-{
-	ft_destroy_mutex(table);
-	if (table->philos)
-		free(table->philos);
-	if (table->forks)
-		free(table->forks);
-	free(table);
+	gettimeofday(&time, NULL);
+	current_time = (time.tv_sec * 1000) + (time.tv_usec / 1000);
+	//printf("seconds: %ld\n microseconds: %ld\n", time.tv_sec, time.tv_usec);
+	return (current_time);
 }
