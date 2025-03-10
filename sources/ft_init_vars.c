@@ -6,7 +6,7 @@
 /*   By: daafonso <daafonso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 18:49:16 by daniel149af       #+#    #+#             */
-/*   Updated: 2025/03/07 16:44:47 by daafonso         ###   ########.fr       */
+/*   Updated: 2025/03/10 19:29:06 by daafonso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,15 +23,18 @@ void	ft_init_table(t_table **table, char **argv, int argc)
 		printf("Error: Failed to allocate memory for table.\n");
 		exit(1);
 	}
-	// (*table)->time_to_die = atol(argv[2]);
-	// (*table)->time_to_eat = atol(argv[3]);
-	// (*table)->time_to_sleep = atol(argv[4]);
-	// (*table)->nb_limit_meals = atol(argv[5]);
+	(*table)->time_to_die = atol(argv[2]);
+	(*table)->time_to_eat = atol(argv[3]);
+	(*table)->time_to_sleep = atol(argv[4]);
+	(*table)->nb_limit_meals = atol(argv[5]);
 	(*table)->nb_philo = nb_philo;
 }
 
-void	ft_init_forks_and_mutexes(t_table *table, int i)
+void	ft_init_forks_and_mutexes(t_table *table)
 {
+	int	i;
+
+	i = 0;
 	while (i < table->nb_philo)
 	{
 		table->forks[i].fork_id = i;
@@ -39,10 +42,14 @@ void	ft_init_forks_and_mutexes(t_table *table, int i)
 		i++;
 	}
 	pthread_mutex_init(&table->turn_mutex, NULL);
+	table->mutex_initialized = 1;
 }
 
-void	ft_init_philos_and_threads(t_table *table, int i)
+void	ft_init_philos_and_threads(t_table *table)
 {
+	int	i;
+
+	i = 0;
 	while (i < table->nb_philo)
 	{
 		table->philos[i].id = i + 1;
@@ -55,8 +62,11 @@ void	ft_init_philos_and_threads(t_table *table, int i)
 	}
 }
 
-void	ft_join_thread(t_table *table, int i)
+void	ft_join_thread(t_table *table)
 {
+	int	i;
+
+	i = 0;
 	while (i < table->nb_philo)
 	{
 		pthread_join(table->philos[i].thread_id, NULL);
@@ -64,14 +74,21 @@ void	ft_join_thread(t_table *table, int i)
 	}
 }
 
-void	ft_destroy_mutex(t_table *table, int i)
+void	ft_destroy_mutex(t_table *table)
 {
-	while (i < table->nb_philo)
+	int	i;
+
+	i = 0;
+	if (table->mutex_initialized)
 	{
-		pthread_mutex_destroy(&table->forks[i].mutex);
-		i++;
+		while (i < table->nb_philo)
+		{
+			pthread_mutex_destroy(&table->forks[i].mutex);
+			i++;
+		}
+		pthread_mutex_destroy(&table->turn_mutex);
 	}
-	pthread_mutex_destroy(&table->turn_mutex);
+
 }
 //INIT TABLE: alloue toutes les struct dans table (t_table, t_philo, t_fork)
 //philo et fork sont des pointeur qui prendront l'addresse d'un tableau 

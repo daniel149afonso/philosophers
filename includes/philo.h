@@ -6,7 +6,7 @@
 /*   By: daniel149afonso <daniel149afonso@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 15:09:56 by daniel149af       #+#    #+#             */
-/*   Updated: 2025/03/06 15:27:46 by daniel149af      ###   ########.fr       */
+/*   Updated: 2025/03/10 17:30:49 by daniel149af      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,10 @@ typedef struct s_table
 	long				time_to_sleep;
 	long				nb_limit_meals;//[5]
 	t_fork				*forks; // array forks
-	t_philo				 *philos; //array philos
+	t_philo				*philos; //array philos
+	t_bool				mutex_initialized;
 	pthread_mutex_t		turn_mutex;
+	pthread_mutex_t		meal_mutex;
 }	t_table;
 
 
@@ -73,10 +75,10 @@ void	*start_routine(void *arg);
 
 //INIT
 void	ft_init_table(t_table **table, char **argv, int argc);
-void	ft_init_forks_and_mutexes(t_table *table, int i);
-void	ft_init_philos_and_threads(t_table *table, int i);
-void	ft_join_thread(t_table *table, int i);
-void	ft_destroy_mutex(t_table *table, int i);
+void	ft_init_forks_and_mutexes(t_table *table);
+void	ft_init_philos_and_threads(t_table *table);
+void	ft_join_thread(t_table *table);
+void	ft_destroy_mutex(t_table *table);
 
 //ASSIGN ARRAY
 void	ft_assign_philos(t_table *table, t_philo *philos);
@@ -85,6 +87,15 @@ void	ft_assign_forks(t_table *table, t_fork *forks);
 //ALLOCATE
 int		ft_alloc_struct_in_table(t_table **table, long nb_philo);
 
+//PARSING
+int		ft_parsing(char **argv, t_table *table);
+long	ft_atol(const char *str);
+int		ft_isdigit(char **strs);
+
 //ERROR
-int		ft_error(char *msg);
+int		ft_error(char *msg, t_table *table);
+
+//UTILS
+long	get_current_time_ms(void);
+
 #endif

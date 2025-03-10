@@ -9,7 +9,9 @@ SRC_DIR = sources
 SRCS = $(SRC_DIR)/philo.c \
 	$(SRC_DIR)/ft_allocate_memory.c \
 	$(SRC_DIR)/ft_error.c \
-	$(SRC_DIR)/ft_init_vars.c
+	$(SRC_DIR)/ft_init_vars.c \
+	$(SRC_DIR)/utils.c \
+	$(SRC_DIR)/ft_parsing.c
 
 OBJS =		$(SRCS:.c=.o)
 
