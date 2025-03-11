@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_parsing.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: daniel149afonso <daniel149afonso@studen    +#+  +:+       +#+        */
+/*   By: daafonso <daafonso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 17:50:01 by daniel149af       #+#    #+#             */
-/*   Updated: 2025/03/11 15:41:19 by daniel149af      ###   ########.fr       */
+/*   Updated: 2025/03/11 16:54:19 by daafonso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	ft_is_positive_num(char **strs)
 	return (0);
 }
 
-long	ft_atol_v2(const char *str, t_table *table)
+long	ft_atol_v2(const char *str)
 {
 	int		i;
 	int		sign;
@@ -61,20 +61,36 @@ long	ft_atol_v2(const char *str, t_table *table)
 		i++;
 		length++;
 		if ((result > LONG_MAX) || length > 19)
-		{
-			ft_error("Error: Number excceds LONG_MAX\n", table);
 			return (0);
-		}
 	}
 	return (result *= sign);
 }
 
 int	ft_parsing(char **argv, t_table *table)
 {
+	int	j;
+
 	if (ft_is_positive_num(argv) == -1)
 	{
-		ft_error("Error: Only digits are accepted.\n", table);
+		ft_error("Error: Only positive numbers are allowed"
+			" (without duplicated sign).\n", table);
 		return (1);
+	}
+	if (ft_atol_v2(argv[1]) > MAX_PHILOS)
+	{
+		ft_error("Error: Maximum 200 philosophers can be added.\n", table);
+		return (1);
+	}
+	j = 1;
+	while (argv[j])
+	{
+		if (!ft_atol_v2(argv[j]))
+		{
+			ft_error("Error: Non valid number or number excceds LONG_MAX\n",
+				table);
+			return (1);
+		}
+		j++;
 	}
 	return (0);
 }

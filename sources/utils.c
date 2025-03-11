@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: daniel149afonso <daniel149afonso@studen    +#+  +:+       +#+        */
+/*   By: daafonso <daafonso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 17:50:01 by daniel149af       #+#    #+#             */
-/*   Updated: 2025/03/10 16:08:14 by daniel149af      ###   ########.fr       */
+/*   Updated: 2025/03/11 19:48:22 by daafonso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,6 @@ long	get_current_time_ms(void)
 
 	gettimeofday(&time, NULL);
 	current_time = (time.tv_sec * 1000) + (time.tv_usec / 1000);
-	//printf("seconds: %ld\n microseconds: %ld\n", time.tv_sec, time.tv_usec);
+	printf("Time: %ld miliseconds\n", current_time);
 	return (current_time);
 }

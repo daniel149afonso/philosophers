@@ -6,27 +6,28 @@
 /*   By: daafonso <daafonso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 18:49:16 by daniel149af       #+#    #+#             */
-/*   Updated: 2025/03/10 21:14:47 by daafonso         ###   ########.fr       */
+/*   Updated: 2025/03/11 17:57:33 by daafonso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
 
-void	ft_init_table(t_table **table, char **argv)
+void	ft_init_table(t_table **table, char **argv, int argc)
 {
 	long	nb_philo;
 
-	nb_philo = ft_atol_v2(argv[1], *table);
+	nb_philo = ft_atol_v2(argv[1]);
 	if (ft_alloc_struct_in_table(table, nb_philo) != 0 || !(*table))
 	{
 		printf("Error: Failed to allocate memory for table.\n");
 		exit(1);
 	}
-	(*table)->time_to_die = ft_atol_v2(argv[2], *table);
-	(*table)->time_to_eat = ft_atol_v2(argv[3], *table);
-	(*table)->time_to_sleep = ft_atol_v2(argv[4], *table);
-	(*table)->nb_limit_meals = ft_atol_v2(argv[5], *table);
 	(*table)->nb_philo = nb_philo;
+	(*table)->time_to_die = ft_atol_v2(argv[2]);
+	(*table)->time_to_eat = ft_atol_v2(argv[3]);
+	(*table)->time_to_sleep = ft_atol_v2(argv[4]);
+	if (argc == 6)
+		(*table)->nb_limit_meals = ft_atol_v2(argv[5]);
 }
 
 void	ft_init_forks_and_mutexes(t_table *table)
@@ -94,3 +95,4 @@ void	ft_destroy_mutex(t_table *table)
 //donc ils sont alloue avec la bonne taille (nb de philos)
 //puis on leur passe l'addresse des array en question avec la bonne taille
 //--------------------------------------------------------------------------
+//FT_INIT_FORKS_MUTEX:
