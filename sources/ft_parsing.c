@@ -6,7 +6,7 @@
 /*   By: daniel149afonso <daniel149afonso@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 17:50:01 by daniel149af       #+#    #+#             */
-/*   Updated: 2025/03/10 17:33:42 by daniel149af      ###   ########.fr       */
+/*   Updated: 2025/03/10 17:42:02 by daniel149af      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	ft_isdigit(char **strs)
 		i = 0;
 		while (strs[j][i])
 		{
-			if (strs[j][i] >= '0' && strs[j][i] <= '9')
+			if (strs[j][i] < '0' && strs[j][i] > '9')
 				return (1);
 			i++;
 		}
