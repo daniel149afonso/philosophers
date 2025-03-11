@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: daniel149afonso <daniel149afonso@studen    +#+  +:+       +#+        */
+/*   By: daafonso <daafonso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 15:09:56 by daniel149af       #+#    #+#             */
-/*   Updated: 2025/03/10 17:30:49 by daniel149af      ###   ########.fr       */
+/*   Updated: 2025/03/10 21:09:55 by daafonso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,9 @@
 # include <limits.h> // INT_MAX ?????
 # include <string.h> //memset
 
-//PREVIOUS DEFINITION OF TABLE
+# define LONG_MAX_LENGTH 19
+
+//PREVIOUS DEFINITION OF TABLE: because not init in t_philo struct
 typedef struct s_table	t_table;
 
 //BOOL
@@ -74,7 +76,7 @@ typedef struct s_table
 void	*start_routine(void *arg);
 
 //INIT
-void	ft_init_table(t_table **table, char **argv, int argc);
+void	ft_init_table(t_table **table, char **argv);
 void	ft_init_forks_and_mutexes(t_table *table);
 void	ft_init_philos_and_threads(t_table *table);
 void	ft_join_thread(t_table *table);
@@ -89,8 +91,8 @@ int		ft_alloc_struct_in_table(t_table **table, long nb_philo);
 
 //PARSING
 int		ft_parsing(char **argv, t_table *table);
-long	ft_atol(const char *str);
-int		ft_isdigit(char **strs);
+long	ft_atol_v2(const char *str, t_table *table);
+int		ft_is_positive_num(char **strs);
 
 //ERROR
 int		ft_error(char *msg, t_table *table);

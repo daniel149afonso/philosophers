@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: daniel149afonso <daniel149afonso@studen    +#+  +:+       +#+        */
+/*   By: daafonso <daafonso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 15:09:20 by daniel149af       #+#    #+#             */
-/*   Updated: 2025/03/10 17:34:56 by daniel149af      ###   ########.fr       */
+/*   Updated: 2025/03/10 20:26:38 by daafonso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ void	*start_routine(void *arg)
 		sleep(1);
 	}
 	//Prendre les fourchettes
-	//printf("Le philo %d veut manger...\n", philo->id);
 	if (philo->id % 2 != 0)
 	{
 		pthread_mutex_lock(&philo->left_fork->mutex);
@@ -71,7 +70,6 @@ void	*start_routine(void *arg)
 	printf("Le philo %d dort\n", philo->id);
 	sleep(2);
 	printf("Le philo %d pense 🧠\n", philo->id);
-	sleep(2);
 	//Syncrhonisation des tours
 	pthread_mutex_lock(&philo->table->turn_mutex);
 	philo->table->count++;
@@ -98,14 +96,14 @@ int	main(int argc, char **argv)
 	t_table	*table;
 
 	table = NULL;
-	if (argc < 6)
+	if (argc != 6)
 	{
-		ft_error("Error: Too few arguments!\n", table);
+		ft_error("Error: Only [number philosophers], [time_death], [time_eat], [time_sleep], [number meals] are required!\n", table);
 		return (1);
 	}
 	if (ft_parsing(argv, table))
 		return (1);
-	ft_init_table(&table, argv, argc);
+	ft_init_table(&table, argv);
 	if (table->nb_philo < 2)
 	{
 		ft_error("Error: Minimum 2 philosophers are required.\n", table);
