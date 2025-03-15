@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: daafonso <daafonso@student.42.fr>          +#+  +:+       +#+        */
+/*   By: daniel149afonso <daniel149afonso@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 15:09:56 by daniel149af       #+#    #+#             */
-/*   Updated: 2025/03/11 18:03:21 by daafonso         ###   ########.fr       */
+/*   Updated: 2025/03/12 13:19:13 by daniel149af      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ typedef struct s_table
 
 //MAIN
 void	*start_routine(void *arg);
+void	monitor(t_philo *philo);
 
 //INIT
 void	ft_init_table(t_table **table, char **argv, int argc);

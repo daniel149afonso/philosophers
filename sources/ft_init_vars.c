@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_init_vars.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: daafonso <daafonso@student.42.fr>          +#+  +:+       +#+        */
+/*   By: daniel149afonso <daniel149afonso@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 18:49:16 by daniel149af       #+#    #+#             */
-/*   Updated: 2025/03/11 17:57:33 by daafonso         ###   ########.fr       */
+/*   Updated: 2025/03/12 19:27:34 by daniel149af      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,11 @@ void	ft_destroy_mutex(t_table *table)
 		pthread_mutex_destroy(&table->turn_mutex);
 	}
 
+}
+
+void	monitor()
+{
+	
 }
 //INIT TABLE: alloue toutes les struct dans table (t_table, t_philo, t_fork)
 //philo et fork sont des pointeur qui prendront l'addresse d'un tableau 
