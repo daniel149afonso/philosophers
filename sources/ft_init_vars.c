@@ -6,7 +6,7 @@
 /*   By: daafonso <daafonso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 18:49:16 by daniel149af       #+#    #+#             */
-/*   Updated: 2025/03/15 16:27:31 by daafonso         ###   ########.fr       */
+/*   Updated: 2025/03/15 21:19:55 by daafonso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,11 +55,17 @@ void	ft_init_philos_and_threads(t_table *table)
 		table->philos[i].id = i + 1;
 		table->philos[i].left_fork = &table->forks[i];
 		table->philos[i].right_fork = &table->forks[(i + 1) % table->nb_philo];
+		table->philos[i].last_meal_time = get_current_time_ms();
 		table->philos[i].table = table;
 		pthread_create(&table->philos[i].thread_id, NULL,
 			&start_routine, &table->philos[i]);
 		i++;
 	}
+}
+
+void	monitor_thread(t_table *table)
+{
+	pthread_create(&table->monitor_thread, NULL, &monitor_routine, table);
 }
 
 void	ft_join_thread(t_table *table)
@@ -72,23 +78,7 @@ void	ft_join_thread(t_table *table)
 		pthread_join(table->philos[i].thread_id, NULL);
 		i++;
 	}
-}
-
-void	ft_destroy_mutex(t_table *table)
-{
-	int	i;
-
-	i = 0;
-	if (table->mutex_initialized)
-	{
-		while (i < table->nb_philo)
-		{
-			pthread_mutex_destroy(&table->forks[i].mutex);
-			i++;
-		}
-		pthread_mutex_destroy(&table->turn_mutex);
-	}
-
+	pthread_join(table->monitor_thread, NULL);
 }
 //INIT TABLE: alloue toutes les struct dans table (t_table, t_philo, t_fork)
 //philo et fork sont des pointeur qui prendront l'addresse d'un tableau
@@ -96,3 +86,4 @@ void	ft_destroy_mutex(t_table *table)
 //puis on leur passe l'addresse des array en question avec la bonne taille
 //--------------------------------------------------------------------------
 //FT_INIT_FORKS_MUTEX:
+//initialise les forks et les mutex de chaque fork et le mutex meal

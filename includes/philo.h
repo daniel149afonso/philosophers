@@ -6,7 +6,7 @@
 /*   By: daafonso <daafonso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 15:09:56 by daniel149af       #+#    #+#             */
-/*   Updated: 2025/03/15 16:03:27 by daafonso         ###   ########.fr       */
+/*   Updated: 2025/03/15 20:34:56 by daafonso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,6 @@ void	ft_init_table(t_table **table, char **argv, int argc);
 void	ft_init_forks_and_mutexes(t_table *table);
 void	ft_init_philos_and_threads(t_table *table);
 void	ft_join_thread(t_table *table);
-void	ft_destroy_mutex(t_table *table);
 
 //ALLOCATE
 int		ft_alloc_struct_in_table(t_table **table, long nb_philo);
@@ -97,6 +96,7 @@ int		ft_is_positive_num(char **strs);
 //FREE AND ERROR
 void	ft_free_table(t_table *table);
 int		ft_error(char *msg, t_table *table);
+void	ft_destroy_mutex(t_table *table);
 
 //UTILS
 long	get_current_time_ms(void);

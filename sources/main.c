@@ -6,7 +6,7 @@
 /*   By: daafonso <daafonso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 15:09:20 by daniel149af       #+#    #+#             */
-/*   Updated: 2025/03/15 16:23:50 by daafonso         ###   ########.fr       */
+/*   Updated: 2025/03/15 21:24:15 by daafonso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void	*start_routine(void *arg)
 			pthread_mutex_lock(&philo->left_fork->mutex);
 		}
 		printf("Le philo %d mange 🍝\n", philo->id);
-		sleep(philo->table->time_to_eat);
+		sleep(2);
 		printf("Le philo %d a fini de manger et repose la fourchette\n", philo->id);
 		pthread_mutex_unlock(&philo->left_fork->mutex);
 		pthread_mutex_unlock(&philo->right_fork->mutex);
@@ -88,12 +88,14 @@ void	*monitor_routine(void *arg)
 	table = (t_table *)arg;
 	while (1)
 	{
+		i = 0;
 		while (i < table->nb_philo)
 		{
 			pthread_mutex_lock(&table->meal_mutex);
 			if ((get_current_time_ms() - table->philos[i].last_meal_time) \
 			> table->time_to_die)
 			{
+				printf("%ld\n", table->philos[i].last_meal_time);
 				printf("Time: %ld, Philosopher %d died\n",
 					get_current_time_ms(), table->philos[i].id);
 				pthread_mutex_unlock(&table->meal_mutex);
@@ -107,9 +109,10 @@ void	*monitor_routine(void *arg)
 	return (NULL);
 }
 
-void	monitor_thread(t_table *table)
+void	stop_routine(t_table *table)
 {
-	pthread_create(&table->monitor_thread, NULL, &monitor_routine, table);
+	ft_join_thread(table);
+	ft_free_table(table);
 }
 
 int	main(int argc, char **argv)
@@ -129,8 +132,7 @@ int	main(int argc, char **argv)
 	ft_init_forks_and_mutexes(table);
 	ft_init_philos_and_threads(table);
 	monitor_thread(table);
-	ft_join_thread(table);
-	ft_free_table(table);
+	stop_routine(table);
 	return (0);
 }
 //Rappel : Un mutex protège une section de code, pas une variable

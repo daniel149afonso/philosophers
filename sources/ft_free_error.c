@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_error.c                                         :+:      :+:    :+:   */
+/*   ft_free_error.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: daafonso <daafonso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 19:10:38 by daniel149af       #+#    #+#             */
-/*   Updated: 2025/03/11 18:02:06 by daafonso         ###   ########.fr       */
+/*   Updated: 2025/03/15 20:34:44 by daafonso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,4 +32,21 @@ void	ft_free_table(t_table *table)
 			free(table->forks);
 		free(table);
 	}
+}
+
+void	ft_destroy_mutex(t_table *table)
+{
+	int	i;
+
+	i = 0;
+	if (table->mutex_initialized)
+	{
+		while (i < table->nb_philo)
+		{
+			pthread_mutex_destroy(&table->forks[i].mutex);
+			i++;
+		}
+		pthread_mutex_destroy(&table->turn_mutex);
+	}
+
 }
