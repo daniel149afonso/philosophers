@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: daniel149afonso <daniel149afonso@studen    +#+  +:+       +#+        */
+/*   By: daafonso <daafonso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 15:09:20 by daniel149af       #+#    #+#             */
-/*   Updated: 2025/03/13 00:53:19 by daniel149af      ###   ########.fr       */
+/*   Updated: 2025/03/15 16:23:50 by daafonso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,12 +75,11 @@ void	*start_routine(void *arg)
 			philo->table->count = 0;
 		}
 		pthread_mutex_unlock(&philo->table->turn_mutex);
-		monitor(philo);
 	}
 	return (NULL);
 }
 
-void	*monitor(void *arg)
+void	*monitor_routine(void *arg)
 {
 	int		i;
 	t_table	*table;
@@ -91,29 +90,26 @@ void	*monitor(void *arg)
 	{
 		while (i < table->nb_philo)
 		{
+			pthread_mutex_lock(&table->meal_mutex);
 			if ((get_current_time_ms() - table->philos[i].last_meal_time) \
 			> table->time_to_die)
 			{
 				printf("Time: %ld, Philosopher %d died\n",
 					get_current_time_ms(), table->philos[i].id);
+				pthread_mutex_unlock(&table->meal_mutex);
 				return (NULL);
 			}
+			pthread_mutex_unlock(&table->meal_mutex);
 			i++;
 		}
+		usleep(1000);
 	}
 	return (NULL);
 }
 
 void	monitor_thread(t_table *table)
 {
-	int	i;
-
-	i = 0;
-	while (i < table->nb_philo)
-	{
-		pthread_create(&table->philos[i].id, NULL, &monitor, &table->philos[i]);
-	}
-
+	pthread_create(&table->monitor_thread, NULL, &monitor_routine, table);
 }
 
 int	main(int argc, char **argv)
@@ -132,6 +128,7 @@ int	main(int argc, char **argv)
 	ft_init_table(&table, argv, argc);
 	ft_init_forks_and_mutexes(table);
 	ft_init_philos_and_threads(table);
+	monitor_thread(table);
 	ft_join_thread(table);
 	ft_free_table(table);
 	return (0);

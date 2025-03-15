@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: daniel149afonso <daniel149afonso@studen    +#+  +:+       +#+        */
+/*   By: daafonso <daafonso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 15:09:56 by daniel149af       #+#    #+#             */
-/*   Updated: 2025/03/12 13:19:13 by daniel149af      ###   ########.fr       */
+/*   Updated: 2025/03/15 16:03:27 by daafonso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ typedef struct s_philo
 	long				last_meal_time;// time passed after last meal
 	t_fork				*left_fork;
 	t_fork				*right_fork;
-	t_bool				full;//if philo has eaten the max meals
+	t_bool				full;//if philo has eaten the max meals dispensable
 	t_table				*table;
 	pthread_t			thread_id;
 }	t_philo;
@@ -64,10 +64,11 @@ typedef struct s_table
 	long				time_to_die;
 	long				time_to_eat;
 	long				time_to_sleep;
-	long				nb_limit_meals;//[5]
+	long				nb_limit_meals;
 	t_fork				*forks; // array forks
 	t_philo				*philos; //array philos
 	t_bool				mutex_initialized;
+	pthread_t			monitor_thread;
 	pthread_mutex_t		turn_mutex;
 	pthread_mutex_t		meal_mutex;
 }	t_table;
@@ -75,7 +76,8 @@ typedef struct s_table
 
 //MAIN
 void	*start_routine(void *arg);
-void	monitor(t_philo *philo);
+void	*monitor_routine(void *arg);
+void	monitor_thread(t_table *table);
 
 //INIT
 void	ft_init_table(t_table **table, char **argv, int argc);

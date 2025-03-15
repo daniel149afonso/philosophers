@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_init_vars.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: daniel149afonso <daniel149afonso@studen    +#+  +:+       +#+        */
+/*   By: daafonso <daafonso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 18:49:16 by daniel149af       #+#    #+#             */
-/*   Updated: 2025/03/12 19:27:34 by daniel149af      ###   ########.fr       */
+/*   Updated: 2025/03/15 16:27:31 by daafonso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,13 +90,8 @@ void	ft_destroy_mutex(t_table *table)
 	}
 
 }
-
-void	monitor()
-{
-	
-}
 //INIT TABLE: alloue toutes les struct dans table (t_table, t_philo, t_fork)
-//philo et fork sont des pointeur qui prendront l'addresse d'un tableau 
+//philo et fork sont des pointeur qui prendront l'addresse d'un tableau
 //donc ils sont alloue avec la bonne taille (nb de philos)
 //puis on leur passe l'addresse des array en question avec la bonne taille
 //--------------------------------------------------------------------------
