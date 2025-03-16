@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: daafonso <daafonso@student.42.fr>          +#+  +:+       +#+        */
+/*   By: daniel149afonso <daniel149afonso@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 15:09:20 by daniel149af       #+#    #+#             */
-/*   Updated: 2025/03/15 21:24:15 by daafonso         ###   ########.fr       */
+/*   Updated: 2025/03/16 23:22:32 by daniel149af      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,12 @@ void	*start_routine(void *arg)
 	nb_philo = philo->table->nb_philo;
 	while (1)
 	{
-		printf("Philo %d, Meals %ld\n", philo->id, philo->meals_counter);
-		if (philo->meals_counter == philo->table->nb_limit_meals)
-			break ;
+		if (philo->table->nb_limit_meals)
+			if (philo->meals_counter == philo->table->nb_limit_meals)
+				break ;
+		//printf("Philo %d, Meals %ld\n", philo->id, philo->meals_counter);
+		//Penser
+		printf("Time: [%lld] Le philo %d pense 🧠\n", (long long)get_current_time_ms() - philo->table->start_time, philo->id);
 		//Attendre son tour
 		while (1)
 		{
@@ -35,12 +38,12 @@ void	*start_routine(void *arg)
 				break ;
 			}
 			pthread_mutex_unlock(&philo->table->turn_mutex);
-			usleep(5000);
+			usleep(500);
 		}
 		if (philo->id == nb_philo && philo->id % 2 != 0)
 		{
 			printf("Le philo %d est le dernier impair et attend...\n", philo->id);
-			usleep(5000);
+			usleep(1000);
 		}
 		//Prendre les fourchettes
 		if (philo->id % 2 != 0)
@@ -54,25 +57,40 @@ void	*start_routine(void *arg)
 			pthread_mutex_lock(&philo->left_fork->mutex);
 		}
 		printf("Le philo %d mange 🍝\n", philo->id);
-		sleep(2);
-		printf("Le philo %d a fini de manger et repose la fourchette\n", philo->id);
+		usleep(philo->table->time_to_eat * 1000);
 		pthread_mutex_unlock(&philo->left_fork->mutex);
 		pthread_mutex_unlock(&philo->right_fork->mutex);
+		//printf("Le philo %d a fini de manger et repose la fourchette\n", philo->id);
 		//Repas temps
 		philo->meals_counter++;
+		pthread_mutex_lock(&philo->table->meal_mutex);
 		philo->last_meal_time = get_current_time_ms();
-		//Dormir et penser
-		printf("Le philo %d dort\n", philo->id);
-		sleep(2);
-		printf("Le philo %d pense 🧠\n", philo->id);
+		pthread_mutex_unlock(&philo->table->meal_mutex);
+		//Dormir
+		printf("Le philo %d dort 😴\n", philo->id);
+		usleep(philo->table->time_to_sleep * 1000);
 		//Syncrhonisation des tours
 		pthread_mutex_lock(&philo->table->turn_mutex);
 		philo->table->count++;
+		printf("🔄 Tour actuel : %d | Philosophe %d a fini | count = %d\n", philo->table->turn, philo->id, philo->table->count);
+
 		if ((philo->id % 2 != 0 && philo->table->turn == 0 && philo->table->count == (nb_philo + 1) / 2)
 			|| (philo->id % 2 == 0 && philo->table->turn == 1 && philo->table->count == nb_philo / 2))
 		{
-			philo->table->turn = 1 - philo->table->turn; // 🔄 Change le tour
+			printf("🟢 Changement de tour ! (Nouveau tour : %d)\n", 1 - philo->table->turn);
+			philo->table->turn = 1 - philo->table->turn;
 			philo->table->count = 0;
+		}
+		// 🚨 **Forcer les impairs à attendre que les pairs aient fini !**
+		if (philo->id % 2 != 0)
+		{
+			printf("🚫 Philosophe %d attend que les pairs finissent...\n", philo->id);
+			while (philo->table->turn != 0) // Tant que ce n'est pas encore le tour des impairs
+			{
+				pthread_mutex_unlock(&philo->table->turn_mutex);
+				usleep(500);
+				pthread_mutex_lock(&philo->table->turn_mutex);
+			}
 		}
 		pthread_mutex_unlock(&philo->table->turn_mutex);
 	}
@@ -95,10 +113,12 @@ void	*monitor_routine(void *arg)
 			if ((get_current_time_ms() - table->philos[i].last_meal_time) \
 			> table->time_to_die)
 			{
-				printf("%ld\n", table->philos[i].last_meal_time);
-				printf("Time: %ld, Philosopher %d died\n",
+				printf("%ld\n", get_current_time_ms() - table->philos[i].last_meal_time);
+				//printf("%ld\n", table->philos[i].last_meal_time);
+				printf("Time: %ld, Philosopher %d died 💀\n",
 					get_current_time_ms(), table->philos[i].id);
 				pthread_mutex_unlock(&table->meal_mutex);
+				exit(EXIT_FAILURE);
 				return (NULL);
 			}
 			pthread_mutex_unlock(&table->meal_mutex);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: daafonso <daafonso@student.42.fr>          +#+  +:+       +#+        */
+/*   By: daniel149afonso <daniel149afonso@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 15:09:56 by daniel149af       #+#    #+#             */
-/*   Updated: 2025/03/15 20:34:56 by daafonso         ###   ########.fr       */
+/*   Updated: 2025/03/16 22:21:23 by daniel149af      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ typedef struct s_table
 	long				time_to_eat;
 	long				time_to_sleep;
 	long				nb_limit_meals;
+	long long			start_time;
 	t_fork				*forks; // array forks
 	t_philo				*philos; //array philos
 	t_bool				mutex_initialized;
