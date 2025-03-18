@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_init_vars.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: daniel149afonso <daniel149afonso@studen    +#+  +:+       +#+        */
+/*   By: daafonso <daafonso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 18:49:16 by daniel149af       #+#    #+#             */
-/*   Updated: 2025/03/16 23:20:08 by daniel149af      ###   ########.fr       */
+/*   Updated: 2025/03/18 19:15:00 by daafonso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	ft_init_philos_and_threads(t_table *table)
 		table->philos[i].id = i + 1;
 		table->philos[i].left_fork = &table->forks[i];
 		table->philos[i].right_fork = &table->forks[(i + 1) % table->nb_philo];
-		table->philos[i].last_meal_time = 100000000000000000;
+		table->philos[i].last_meal_time = get_current_time_ms();
 		table->philos[i].table = table;
 		pthread_create(&table->philos[i].thread_id, NULL,
 			&start_routine, &table->philos[i]);

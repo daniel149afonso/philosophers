@@ -1,29 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   ft_routine_action.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: daafonso <daafonso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/09 17:50:01 by daniel149af       #+#    #+#             */
-/*   Updated: 2025/03/18 21:49:53 by daafonso         ###   ########.fr       */
+/*   Created: 2025/03/18 22:27:35 by daafonso          #+#    #+#             */
+/*   Updated: 2025/03/18 22:32:49 by daafonso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
 
-long	get_current_time_ms(void)
+void	think(t_philo *philo)
 {
-	struct timeval	time;
-	long			current_time;
-
-	gettimeofday(&time, NULL);
-	current_time = (time.tv_sec * 1000) + (time.tv_usec / 1000);
-	//printf("Time: %ld miliseconds\n", current_time);
-	return (current_time);
+	print_message("is thinking", philo, philo->id);
 }
 
-void	ft_usleep(long time_ms)
+// Dream routine funtion
+
+void	dream(t_philo *philo)
 {
-	usleep(time_ms * 1000);
+	
+}
+
+// Eat routine funtion
+
+void	eat(t_philo *philo)
+{
+
 }
