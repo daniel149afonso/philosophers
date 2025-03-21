@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: daafonso <daafonso@student.42.fr>          +#+  +:+       +#+        */
+/*   By: daniel149afonso <daniel149afonso@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 15:09:56 by daniel149af       #+#    #+#             */
-/*   Updated: 2025/03/18 21:50:05 by daafonso         ###   ########.fr       */
+/*   Updated: 2025/03/21 00:33:01 by daniel149af      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ typedef struct s_philo
 	t_fork				*left_fork;
 	t_fork				*right_fork;
 	t_bool				full;//if philo has eaten the max meals dispensable
+	t_bool				eating;
 	t_table				*table;
 	pthread_t			thread_id;
 }	t_philo;
@@ -70,7 +71,6 @@ typedef struct s_table
 	t_philo				*philos; //array philos
 	t_bool				mutex_initialized;
 	pthread_t			monitor_thread;
-	pthread_mutex_t		turn_mutex;
 	pthread_mutex_t		meal_mutex;
 }	t_table;
 
@@ -86,13 +86,18 @@ void	ft_init_forks_and_mutexes(t_table *table);
 void	ft_init_philos_and_threads(t_table *table);
 void	ft_join_thread(t_table *table);
 
+//ROUTINE ACTIONS
+void	think(t_philo *philo);
+void	dream(t_philo *philo);
+void	eat(t_philo *philo);
+
 //ALLOCATE
 int		ft_alloc_struct_in_table(t_table **table, long nb_philo);
 
 //PARSING
 int		ft_parsing(char **argv, t_table *table);
 long	ft_atol_v2(const char *str);
-int		ft_is_positive_num(char **strs);
+int		is_number(char **strs);
 
 //FREE AND ERROR
 void	ft_free_table(t_table *table);
@@ -102,5 +107,7 @@ void	ft_destroy_mutex(t_table *table);
 //UTILS
 long	get_current_time_ms(void);
 void	ft_usleep(long time_ms);
+long long	elapsed_time(long long time);
+void	handle_message(char *msg, t_philo *philo, int id);
 
 #endif

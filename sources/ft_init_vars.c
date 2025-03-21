@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_init_vars.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: daafonso <daafonso@student.42.fr>          +#+  +:+       +#+        */
+/*   By: daniel149afonso <daniel149afonso@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 18:49:16 by daniel149af       #+#    #+#             */
-/*   Updated: 2025/03/18 19:15:00 by daafonso         ###   ########.fr       */
+/*   Updated: 2025/03/20 23:59:10 by daniel149af      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ void	ft_init_table(t_table **table, char **argv, int argc)
 	long	nb_philo;
 
 	nb_philo = ft_atol_v2(argv[1]);
+	//A OPTIMISER
 	if (ft_alloc_struct_in_table(table, nb_philo) != 0 || !(*table))
 	{
 		printf("Error: Failed to allocate memory for table.\n");
@@ -41,7 +42,7 @@ void	ft_init_forks_and_mutexes(t_table *table)
 		pthread_mutex_init(&table->forks[i].mutex, NULL);
 		i++;
 	}
-	pthread_mutex_init(&table->turn_mutex, NULL);
+	pthread_mutex_init(&table->meal_mutex, NULL);
 	table->mutex_initialized = 1;
 }
 
