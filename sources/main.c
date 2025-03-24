@@ -6,7 +6,7 @@
 /*   By: daniel149afonso <daniel149afonso@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 15:09:20 by daniel149af       #+#    #+#             */
-/*   Updated: 2025/03/20 16:23:51 by daniel149af      ###   ########.fr       */
+/*   Updated: 2025/03/22 19:31:15 by daniel149af      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,48 +17,18 @@ void	*start_routine(void *arg)
 	t_philo		*philo;
 
 	philo = (t_philo *)arg;
+	if (philo->id % 2 == 0)
+		ft_usleep(5);
 	while (1)
 	{
 		think(philo);
 		eat(philo);
 		dream(philo);
 	}
-}
-
-void	*monitor_routine(void *arg)
-{
-	int		i;
-	t_table	*table;
-
-	i = 0;
-	table = (t_table *)arg;
-	while (1)
-	{
-		i = 0;
-		while (i < table->nb_philo)
-		{
-			if (!table->philos[i].eating)
-			{
-				pthread_mutex_lock(&table->meal_mutex);
-				if ((get_current_time_ms() - table->philos[i].last_meal_time) \
-				> table->time_to_die)
-				{
-					//printf("%ld\n", get_current_time_ms() - table->philos[i].last_meal_time);
-					//printf("%ld\n", table->philos[i].last_meal_time);
-					printf("Time: %lld, Philosopher %d died 💀\n", \
-					get_current_time_ms() - table->start_time, table->philos[i].id);
-					pthread_mutex_unlock(&table->meal_mutex);
-					exit(EXIT_FAILURE);
-					return (NULL);
-				}
-			}
-			pthread_mutex_unlock(&table->meal_mutex);
-			i++;
-		}
-		usleep(1000);
-	}
 	return (NULL);
 }
+
+
 
 void	stop_routine(t_table *table)
 {

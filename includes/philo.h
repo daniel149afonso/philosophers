@@ -6,7 +6,7 @@
 /*   By: daniel149afonso <daniel149afonso@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 15:09:56 by daniel149af       #+#    #+#             */
-/*   Updated: 2025/03/21 00:33:01 by daniel149af      ###   ########.fr       */
+/*   Updated: 2025/03/24 15:01:39 by daniel149af      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ typedef struct s_table
 {
 	int					turn;
 	int					count;
-	long				nb_philo;
+	long				nb_philos;
 	long				time_to_die;
 	long				time_to_eat;
 	long				time_to_sleep;
@@ -90,6 +90,9 @@ void	ft_join_thread(t_table *table);
 void	think(t_philo *philo);
 void	dream(t_philo *philo);
 void	eat(t_philo *philo);
+
+//MONITOR
+void	*monitor_routine(void *arg);
 
 //ALLOCATE
 int		ft_alloc_struct_in_table(t_table **table, long nb_philo);

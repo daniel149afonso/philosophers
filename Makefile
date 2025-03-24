@@ -12,7 +12,8 @@ SRCS = $(SRC_DIR)/main.c \
 	$(SRC_DIR)/ft_init_vars.c \
 	$(SRC_DIR)/utils.c \
 	$(SRC_DIR)/ft_parsing.c \
-	$(SRC_DIR)/routine_actions.c
+	$(SRC_DIR)/routine_actions.c \
+	$(SRC_DIR)/monitor.c
 
 OBJS =		$(SRCS:.c=.o)
 
