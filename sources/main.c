@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: daniel149afonso <daniel149afonso@studen    +#+  +:+       +#+        */
+/*   By: daafonso <daafonso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 15:09:20 by daniel149af       #+#    #+#             */
-/*   Updated: 2025/03/22 19:31:15 by daniel149af      ###   ########.fr       */
+/*   Updated: 2025/03/24 19:44:23 by daafonso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,21 +19,13 @@ void	*start_routine(void *arg)
 	philo = (t_philo *)arg;
 	if (philo->id % 2 == 0)
 		ft_usleep(5);
-	while (1)
+	while (!death_flag(philo))
 	{
 		think(philo);
 		eat(philo);
 		dream(philo);
 	}
 	return (NULL);
-}
-
-
-
-void	stop_routine(t_table *table)
-{
-	ft_join_thread(table);
-	ft_free_table(table);
 }
 
 int	main(int argc, char **argv)
@@ -52,14 +44,14 @@ int	main(int argc, char **argv)
 	ft_init_table(&table, argv, argc);
 	ft_init_forks_and_mutexes(table);
 	ft_init_philos_and_threads(table);
-	monitor_thread(table);
-	stop_routine(table);
+	ft_join_threads(table);
+	ft_free_table(table);
 	return (0);
 }
 //Rappel : Un mutex protège une section de code, pas une variable
 //Un mutex est un verrou qui empêche plusieurs threads de lire ou modifier
 //en même temps une variable partagée (c'est chacun son tour: sequentiel)
-//Evite condition races (tout le monde veut faire la meme chose a un instant)
+//Evite rat races (tout le monde veut faire la meme chose a un instant)
 //-----------------------------------------------------------
 //FT_INIT_PHILO:
 //fork[(i + 1)%nb_philo] //pour que la derniere foruchette pointe sur la 1ere

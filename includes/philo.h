@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: daniel149afonso <daniel149afonso@studen    +#+  +:+       +#+        */
+/*   By: daafonso <daafonso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 15:09:56 by daniel149af       #+#    #+#             */
-/*   Updated: 2025/03/24 15:01:39 by daniel149af      ###   ########.fr       */
+/*   Updated: 2025/03/24 19:44:46 by daafonso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ typedef struct s_philo
 	t_fork				*left_fork;
 	t_fork				*right_fork;
 	t_bool				full;//if philo has eaten the max meals dispensable
+	t_bool				dead;
 	t_bool				eating;
 	t_table				*table;
 	pthread_t			thread_id;
@@ -71,6 +72,7 @@ typedef struct s_table
 	t_philo				*philos; //array philos
 	t_bool				mutex_initialized;
 	pthread_t			monitor_thread;
+	pthread_mutex_t		death_mutex;
 	pthread_mutex_t		meal_mutex;
 }	t_table;
 
@@ -84,7 +86,7 @@ void	monitor_thread(t_table *table);
 void	ft_init_table(t_table **table, char **argv, int argc);
 void	ft_init_forks_and_mutexes(t_table *table);
 void	ft_init_philos_and_threads(t_table *table);
-void	ft_join_thread(t_table *table);
+void	ft_join_threads(t_table *table);
 
 //ROUTINE ACTIONS
 void	think(t_philo *philo);
@@ -93,6 +95,7 @@ void	eat(t_philo *philo);
 
 //MONITOR
 void	*monitor_routine(void *arg);
+int		death_flag(t_philo *philo);
 
 //ALLOCATE
 int		ft_alloc_struct_in_table(t_table **table, long nb_philo);

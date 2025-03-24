@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_free_error.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: daniel149afonso <daniel149afonso@studen    +#+  +:+       +#+        */
+/*   By: daafonso <daafonso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 19:10:38 by daniel149af       #+#    #+#             */
-/*   Updated: 2025/03/21 00:01:32 by daniel149af      ###   ########.fr       */
+/*   Updated: 2025/03/24 19:47:25 by daafonso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,12 +41,11 @@ void	ft_destroy_mutex(t_table *table)
 	i = 0;
 	if (table->mutex_initialized)
 	{
-		while (i < table->nb_philo)
+		while (i < table->nb_philos)
 		{
 			pthread_mutex_destroy(&table->forks[i].mutex);
 			i++;
 		}
 		pthread_mutex_destroy(&table->meal_mutex);
 	}
-
 }
