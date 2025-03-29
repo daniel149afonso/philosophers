@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_free_error.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: daafonso <daafonso@student.42.fr>          +#+  +:+       +#+        */
+/*   By: daniel149afonso <daniel149afonso@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 19:10:38 by daniel149af       #+#    #+#             */
-/*   Updated: 2025/03/24 19:47:25 by daafonso         ###   ########.fr       */
+/*   Updated: 2025/03/25 23:26:04 by daniel149af      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,5 +47,7 @@ void	ft_destroy_mutex(t_table *table)
 			i++;
 		}
 		pthread_mutex_destroy(&table->meal_mutex);
+		pthread_mutex_destroy(&table->death_mutex);
+		pthread_mutex_destroy(&table->write_mutex);
 	}
 }

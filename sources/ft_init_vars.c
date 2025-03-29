@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_init_vars.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: daafonso <daafonso@student.42.fr>          +#+  +:+       +#+        */
+/*   By: daniel149afonso <daniel149afonso@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 18:49:16 by daniel149af       #+#    #+#             */
-/*   Updated: 2025/03/24 19:59:37 by daafonso         ###   ########.fr       */
+/*   Updated: 2025/03/28 17:13:40 by daniel149af      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,9 @@ void	ft_init_forks_and_mutexes(t_table *table)
 		i++;
 	}
 	pthread_mutex_init(&table->meal_mutex, NULL);
-	table->mutex_initialized = 1;
+	pthread_mutex_init(&table->death_mutex, NULL);
+	pthread_mutex_init(&table->write_mutex, NULL);
+	table->mutex_initialized = true;
 }
 
 void	ft_init_philos_and_threads(t_table *table)
@@ -57,6 +59,7 @@ void	ft_init_philos_and_threads(t_table *table)
 		table->philos[i].left_fork = &table->forks[i];
 		table->philos[i].right_fork = &table->forks[(i + 1) % table->nb_philos];
 		table->philos[i].last_meal_time = get_current_time_ms();
+		table->philos[i].dead_routine = &table->dead_routine;
 		table->philos[i].table = table;
 		pthread_create(&table->philos[i].thread_id, NULL,
 			&start_routine, &table->philos[i]);

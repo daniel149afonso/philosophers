@@ -6,7 +6,7 @@
 /*   By: daniel149afonso <daniel149afonso@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 17:50:01 by daniel149af       #+#    #+#             */
-/*   Updated: 2025/03/21 00:30:32 by daniel149af      ###   ########.fr       */
+/*   Updated: 2025/03/28 22:39:48 by daniel149af      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,16 +22,16 @@ int	is_number(char **strs)
 	{
 		i = 0;
 		if (strs[j][i] == '\0')
-			return (-1);
+			return (0);
 		while (strs[j][i])
 		{
 			if (strs[j][i] < '0' || strs[j][i] > '9')
-				return (-1);
+				return (0);
 			i++;
 		}
 		j++;
 	}
-	return (0);
+	return (1);
 }
 
 long	ft_atol_v2(const char *str)
@@ -60,9 +60,9 @@ int	ft_parsing(char **argv, t_table *table)
 {
 	int	j;
 
-	if (is_number(argv) == -1)
+	if (!is_number(argv))
 	{
-		ft_error("Error: Wrong number format.\n", table);
+		ft_error("Error: Invalid number.\n", table);
 		return (1);
 	}
 	if (ft_atol_v2(argv[1]) > MAX_PHILOS)

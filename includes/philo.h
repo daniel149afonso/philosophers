@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: daafonso <daafonso@student.42.fr>          +#+  +:+       +#+        */
+/*   By: daniel149afonso <daniel149afonso@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 15:09:56 by daniel149af       #+#    #+#             */
-/*   Updated: 2025/03/24 19:44:46 by daafonso         ###   ########.fr       */
+/*   Updated: 2025/03/29 02:10:34 by daniel149af      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ typedef struct s_philo
 	t_fork				*left_fork;
 	t_fork				*right_fork;
 	t_bool				full;//if philo has eaten the max meals dispensable
-	t_bool				dead;
+	t_bool				*dead_routine;
 	t_bool				eating;
 	t_table				*table;
 	pthread_t			thread_id;
@@ -60,8 +60,6 @@ typedef struct s_philo
 //TABLE
 typedef struct s_table
 {
-	int					turn;
-	int					count;
 	long				nb_philos;
 	long				time_to_die;
 	long				time_to_eat;
@@ -70,17 +68,17 @@ typedef struct s_table
 	long long			start_time;
 	t_fork				*forks; // array forks
 	t_philo				*philos; //array philos
+	t_bool				dead_routine;
 	t_bool				mutex_initialized;
 	pthread_t			monitor_thread;
 	pthread_mutex_t		death_mutex;
 	pthread_mutex_t		meal_mutex;
+	pthread_mutex_t		write_mutex;
 }	t_table;
 
 
 //MAIN
 void	*start_routine(void *arg);
-void	*monitor_routine(void *arg);
-void	monitor_thread(t_table *table);
 
 //INIT
 void	ft_init_table(t_table **table, char **argv, int argc);
@@ -95,7 +93,7 @@ void	eat(t_philo *philo);
 
 //MONITOR
 void	*monitor_routine(void *arg);
-int		death_flag(t_philo *philo);
+int		stop_routine(t_philo *philo);
 
 //ALLOCATE
 int		ft_alloc_struct_in_table(t_table **table, long nb_philo);
@@ -106,8 +104,8 @@ long	ft_atol_v2(const char *str);
 int		is_number(char **strs);
 
 //FREE AND ERROR
-void	ft_free_table(t_table *table);
 int		ft_error(char *msg, t_table *table);
+void	ft_free_table(t_table *table);
 void	ft_destroy_mutex(t_table *table);
 
 //UTILS

@@ -3,19 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   monitor.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: daafonso <daafonso@student.42.fr>          +#+  +:+       +#+        */
+/*   By: daniel149afonso <daniel149afonso@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 19:16:44 by daniel149af       #+#    #+#             */
-/*   Updated: 2025/03/24 19:46:28 by daafonso         ###   ########.fr       */
+/*   Updated: 2025/03/29 02:43:16 by daniel149af      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
 
-int	death_flag(t_philo *philo)
+int	stop_routine(t_philo *philo)
 {
 	pthread_mutex_lock(&philo->table->death_mutex);
-	if (philo->dead == 1)
+	if (*philo->dead_routine == true)
 	{
 		pthread_mutex_unlock(&philo->table->death_mutex);
 		return (1);
@@ -28,7 +28,7 @@ int	is_dead(t_philo *philo)
 {
 	pthread_mutex_lock(&philo->table->meal_mutex);
 	if ((get_current_time_ms() - philo->last_meal_time)
-		> philo->table->time_to_die && philo->eating == 0)
+		> philo->table->time_to_die)
 	{
 		pthread_mutex_unlock(&philo->table->meal_mutex);
 		return (1);
@@ -48,26 +48,41 @@ int	check_death(t_table *table)
 		{
 			handle_message("died 💀", &table->philos[i], table->philos[i].id);
 			pthread_mutex_lock(&table->death_mutex);
-			table->philos[i].dead = 1;
+			*table->philos[i].dead_routine = true;
 			pthread_mutex_unlock(&table->death_mutex);
-			pause();
+			return (1);
 		}
 		i++;
 	}
 	return (0);
 }
 
-// int	check_meals(t_table *table)
-// {
-// 	int	i;
+int	check_meals(t_table *table)
+{
+	int	i;
+	int	full;
 
-// 	i = 0;
-// 	while (1)
-// 	{
-// 		/* code */
-// 	}
-
-// }
+	full = 0;
+	i = 0;
+	if (table->nb_limit_meals == 0)
+		return (0);
+	while (i < table->nb_philos)
+	{
+		pthread_mutex_lock(&table->meal_mutex);
+		if (table->philos[i].meals_counter == table->nb_limit_meals)
+			full++;
+		pthread_mutex_unlock(&table->meal_mutex);
+		i++;
+	}
+	if (full == table->nb_philos)
+	{
+		pthread_mutex_lock(&table->death_mutex);
+		table->dead_routine = true;
+		pthread_mutex_unlock(&table->death_mutex);
+		return (1);
+	}
+	return (0);
+}
 
 void	*monitor_routine(void *arg)
 {
@@ -76,9 +91,9 @@ void	*monitor_routine(void *arg)
 	table = (t_table *)arg;
 	while (1)
 	{
-		if (check_death(table))
+		if (check_death(table) || check_meals(table)
+			|| table->dead_routine == true)
 			break ;
-		usleep(50);
 	}
 	return (NULL);
 }

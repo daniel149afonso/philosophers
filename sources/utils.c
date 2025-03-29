@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: daafonso <daafonso@student.42.fr>          +#+  +:+       +#+        */
+/*   By: daniel149afonso <daniel149afonso@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 17:50:01 by daniel149af       #+#    #+#             */
-/*   Updated: 2025/03/24 18:14:52 by daafonso         ###   ########.fr       */
+/*   Updated: 2025/03/29 02:42:49 by daniel149af      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,15 @@ void	handle_message(char *msg, t_philo *philo, int id)
 {
 	long long	current;
 
+	pthread_mutex_lock(&philo->table->death_mutex);
+	if (philo->table->dead_routine == true)
+	{
+		pthread_mutex_unlock(&philo->table->death_mutex);
+		return ;
+	}
+	pthread_mutex_unlock(&philo->table->death_mutex);
+	pthread_mutex_lock(&philo->table->write_mutex);
 	current = get_current_time_ms() - philo->table->start_time;
 	printf("Time: [%lld] %d %s\n", current, id, msg);
+	pthread_mutex_unlock(&philo->table->write_mutex);
 }
