@@ -6,7 +6,7 @@
 /*   By: daniel149afonso <daniel149afonso@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 22:27:35 by daafonso          #+#    #+#             */
-/*   Updated: 2025/03/29 02:43:16 by daniel149af      ###   ########.fr       */
+/*   Updated: 2025/03/31 01:17:23 by daniel149af      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,11 +36,11 @@ void	eat(t_philo *philo)
 	pthread_mutex_lock(&philo->right_fork->mutex);
 	handle_message("has taken the right fork 🍴", philo, philo->id);
 	philo->eating = true;
-	handle_message("is eating 🍝", philo, philo->id);
 	pthread_mutex_lock(&philo->table->meal_mutex);
 	philo->last_meal_time = get_current_time_ms();
 	philo->meals_counter++;
 	pthread_mutex_unlock(&philo->table->meal_mutex);
+	handle_message("is eating 🍝", philo, philo->id);
 	ft_usleep(philo->table->time_to_eat);
 	pthread_mutex_unlock(&philo->left_fork->mutex);
 	pthread_mutex_unlock(&philo->right_fork->mutex);

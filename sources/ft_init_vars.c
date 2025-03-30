@@ -6,28 +6,26 @@
 /*   By: daniel149afonso <daniel149afonso@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 18:49:16 by daniel149af       #+#    #+#             */
-/*   Updated: 2025/03/28 17:13:40 by daniel149af      ###   ########.fr       */
+/*   Updated: 2025/03/31 01:18:11 by daniel149af      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
 
-void	ft_init_table(t_table **table, char **argv, int argc)
+int	ft_init_table(t_table **table, char **argv, int argc)
 {
 	long	nb_philos;
 
 	nb_philos = ft_atol_v2(argv[1]);
-	//A OPTIMISER
-	if (ft_alloc_struct_in_table(table, nb_philos) != 0 || !(*table))
-	{
-		ft_error("Error: Failed to allocate memory for table.\n", *table);
-	}
+	if (ft_alloc_struct_in_table(table, nb_philos))
+		return (1);
 	(*table)->nb_philos = nb_philos;
 	(*table)->time_to_die = ft_atol_v2(argv[2]);
 	(*table)->time_to_eat = ft_atol_v2(argv[3]);
 	(*table)->time_to_sleep = ft_atol_v2(argv[4]);
 	if (argc == 6)
 		(*table)->nb_limit_meals = ft_atol_v2(argv[5]);
+	return (0);
 }
 
 void	ft_init_forks_and_mutexes(t_table *table)

@@ -6,7 +6,7 @@
 /*   By: daniel149afonso <daniel149afonso@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 19:16:44 by daniel149af       #+#    #+#             */
-/*   Updated: 2025/03/30 15:35:28 by daniel149af      ###   ########.fr       */
+/*   Updated: 2025/03/31 01:17:45 by daniel149af      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	is_dead(t_philo *philo)
 {
 	pthread_mutex_lock(&philo->table->meal_mutex);
 	if ((get_current_time_ms() - philo->last_meal_time)
-		> philo->table->time_to_die)
+		>= philo->table->time_to_die && !philo->eating)
 	{
 		pthread_mutex_unlock(&philo->table->meal_mutex);
 		return (1);

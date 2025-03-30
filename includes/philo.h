@@ -6,7 +6,7 @@
 /*   By: daniel149afonso <daniel149afonso@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 15:09:56 by daniel149af       #+#    #+#             */
-/*   Updated: 2025/03/29 02:10:34 by daniel149af      ###   ########.fr       */
+/*   Updated: 2025/03/30 19:33:06 by daniel149af      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,12 +76,11 @@ typedef struct s_table
 	pthread_mutex_t		write_mutex;
 }	t_table;
 
-
 //MAIN
 void	*start_routine(void *arg);
 
 //INIT
-void	ft_init_table(t_table **table, char **argv, int argc);
+int		ft_init_table(t_table **table, char **argv, int argc);
 void	ft_init_forks_and_mutexes(t_table *table);
 void	ft_init_philos_and_threads(t_table *table);
 void	ft_join_threads(t_table *table);
@@ -111,7 +110,6 @@ void	ft_destroy_mutex(t_table *table);
 //UTILS
 long	get_current_time_ms(void);
 void	ft_usleep(long time_ms);
-long long	elapsed_time(long long time);
 void	handle_message(char *msg, t_philo *philo, int id);
 
 #endif
