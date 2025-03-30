@@ -6,7 +6,7 @@
 /*   By: daniel149afonso <daniel149afonso@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 19:16:44 by daniel149af       #+#    #+#             */
-/*   Updated: 2025/03/29 02:43:16 by daniel149af      ###   ########.fr       */
+/*   Updated: 2025/03/30 15:35:28 by daniel149af      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ int	check_meals(t_table *table)
 	while (i < table->nb_philos)
 	{
 		pthread_mutex_lock(&table->meal_mutex);
-		if (table->philos[i].meals_counter == table->nb_limit_meals)
+		if (table->philos[i].meals_counter >= table->nb_limit_meals)
 			full++;
 		pthread_mutex_unlock(&table->meal_mutex);
 		i++;
