@@ -23,34 +23,34 @@ L’objectif est de faire manger, penser et dormir des philosophes **sans qu’a
 
 ## ⚙️ Compilation
 
-### ▶️ Pour compiler le projet :
+#### ▶️ Pour compiler le projet :
 
 ```bash
 make
 ```
-### ▶️ Pour recompiler le projet :
+#### ▶️ Pour recompiler le projet :
 
 ```bash
 make re
 ```
-###  🧹Pour nettoyer les .o uniquement :
+####  🧹Pour nettoyer les .o uniquement :
 
 ```bash
 make
 ```
-###  🧹Pour nettoyer les .o et l'exécutable :
+####  🧹Pour nettoyer les .o et l'exécutable :
 
 ```bash
 make
 ```
-###  🚀 Utilisation :
+####  🚀 Utilisation :
 
 ```bash
 ./philo.a [number_of_philosophers] [time_to_die] [time_to_eat] [time_to_sleep] [number_of_times_each_philosopher_must_eat]
 
 ```
 ###  🧩 Paramètres :
-Argument|	Description
+Argument |	Description
 number_of_philosophers:	Nombre de philosophes (et fourchettes)
 time_to_die:	Temps max sans manger avant la mort (en ms)
 time_to_eat:	Temps pour manger (en ms)
