@@ -6,7 +6,7 @@
 /*   By: daniel149afonso <daniel149afonso@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 18:49:16 by daniel149af       #+#    #+#             */
-/*   Updated: 2025/03/31 01:18:11 by daniel149af      ###   ########.fr       */
+/*   Updated: 2025/04/01 15:35:59 by daniel149af      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,11 +59,13 @@ void	ft_init_philos_and_threads(t_table *table)
 		table->philos[i].last_meal_time = get_current_time_ms();
 		table->philos[i].dead_routine = &table->dead_routine;
 		table->philos[i].table = table;
-		pthread_create(&table->philos[i].thread_id, NULL,
-			&start_routine, &table->philos[i]);
+		if (pthread_create(&table->philos[i].thread_id, NULL, \
+			&start_routine, &table->philos[i]))
+			ft_error("Error: Failed to create thread", table);
 		i++;
 	}
-	pthread_create(&table->monitor_thread, NULL, &monitor_routine, table);
+	if (pthread_create(&table->monitor_thread, NULL, &monitor_routine, table))
+		ft_error("Error: Failed to create thread", table);
 }
 
 void	ft_join_threads(t_table *table)
@@ -73,7 +75,8 @@ void	ft_join_threads(t_table *table)
 	i = 0;
 	while (i < table->nb_philos)
 	{
-		pthread_join(table->philos[i].thread_id, NULL);
+		if (pthread_join(table->philos[i].thread_id, NULL))
+			ft_error("Error: Failed to create thread", table);
 		i++;
 	}
 	pthread_join(table->monitor_thread, NULL);
