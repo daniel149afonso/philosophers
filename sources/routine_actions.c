@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   routine_actions.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: daniel149afonso <daniel149afonso@studen    +#+  +:+       +#+        */
+/*   By: daafonso <daafonso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 22:27:35 by daafonso          #+#    #+#             */
-/*   Updated: 2025/04/01 15:21:53 by daniel149af      ###   ########.fr       */
+/*   Updated: 2025/04/01 22:16:26 by daafonso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,16 +23,32 @@ void	dream(t_philo *philo)
 	ft_usleep(philo->table->time_to_sleep);
 }
 
-void	eat(t_philo *philo)
+int	only_one_philo(t_philo *philo)
 {
-	pthread_mutex_lock(&philo->left_fork->mutex);
-	handle_message("has taken the left fork 🍴", philo, philo->id);
 	if (philo->table->nb_philos == 1)
 	{
+		pthread_mutex_lock(&philo->left_fork->mutex);
+		handle_message("has taken the left fork 🍴", philo, philo->id);
+		pthread_mutex_unlock(&philo->left_fork->mutex);
 		handle_message("died 💀", philo, philo->id);
+		pthread_mutex_lock(&philo->table->death_mutex);
 		*philo->dead_routine = true;
-		return ;
+		pthread_mutex_unlock(&philo->table->death_mutex);
+		return (1);
 	}
+	return (0);
+}
+
+// void	take_forks(t_philo *philo)
+// {
+
+// }
+
+void	eat(t_philo *philo)
+{
+	//ajouter condition pour un philo + changer la structure des fork et mutex
+	pthread_mutex_lock(&philo->left_fork->mutex);
+	handle_message("has taken the left fork 🍴", philo, philo->id);
 	pthread_mutex_lock(&philo->right_fork->mutex);
 	handle_message("has taken the right fork 🍴", philo, philo->id);
 	pthread_mutex_lock(&philo->table->meal_mutex);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_init_vars.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: daniel149afonso <daniel149afonso@studen    +#+  +:+       +#+        */
+/*   By: daafonso <daafonso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 18:49:16 by daniel149af       #+#    #+#             */
-/*   Updated: 2025/04/01 15:35:59 by daniel149af      ###   ########.fr       */
+/*   Updated: 2025/04/01 20:14:49 by daafonso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,10 +81,17 @@ void	ft_join_threads(t_table *table)
 	}
 	pthread_join(table->monitor_thread, NULL);
 }
-//INIT TABLE: alloue toutes les struct dans table (t_table, t_philo, t_fork)
+//FT_INIT TABLE: alloue toutes les struct dans table (t_table, t_philo, t_fork)
 //philo et fork sont des pointeur qui prendront l'addresse d'un tableau
 //donc ils sont alloue avec la bonne taille (nb de philos)
 //puis on leur passe l'addresse des array en question avec la bonne taille
+//--------------------------------------------------------------------------
+//FT_INIT_PHILO:
+//fork[(i + 1)%nb_philo] //pour que la derniere foruchette pointe sur la 1ere
+//Creation variable turn stocké direct dans la struct philo
+//1er philo impairs mange ensuite pairs, impairs left fork et pairs right fork
+//Evite les deadlocks!!!
+//ATTENTION: si nb_philo=impair le last philo impair attend un peu avant manger
 //--------------------------------------------------------------------------
 //FT_INIT_FORKS_MUTEX:
 //initialise les forks et les mutex de chaque fork et le mutex meal

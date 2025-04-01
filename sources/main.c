@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: daniel149afonso <daniel149afonso@studen    +#+  +:+       +#+        */
+/*   By: daafonso <daafonso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 15:09:20 by daniel149af       #+#    #+#             */
-/*   Updated: 2025/03/30 21:22:32 by daniel149af      ###   ########.fr       */
+/*   Updated: 2025/04/01 21:14:54 by daafonso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	*start_routine(void *arg)
 
 	philo = (t_philo *)arg;
 	if (philo->id % 2 == 0)
-		ft_usleep(2);
+		ft_usleep(1);
 	while (!stop_routine(philo))
 	{
 		eat(philo);
@@ -52,15 +52,6 @@ int	main(int argc, char **argv)
 //en même temps une variable partagée (c'est chacun son tour: sequentiel)
 //Evite rat races (tout le monde veut faire la meme chose a un instant)
 //-----------------------------------------------------------
-//FT_INIT_PHILO:
-//fork[(i + 1)%nb_philo] //pour que la derniere foruchette pointe sur la 1ere
-//Creation variable turn stocké direct dans la struct philo
-//1er philo impairs mange ensuite pairs, impairs left fork et pairs right fork
-//Evite les deadlocks!!!
-//ATTENTION: si nb_philo=impair le last philo impair attend un peu avant manger
-//--------------------------------------------
 //Start Routine:
-//On bloque le turn mutex pour eviter que plusieur philo modif en meme temps
-//Pourquoi 2 déverrouillages (pthread_mutex_unlock) ?
-//1er unlock: Si le philosophe peut manger, il sort de la boucle immédiatement
-//2eme unlock: Si c'est pas son tour il laisse les autres threads modifier turn
+//Les philos pairs commence en retard pour laisser les impairs manger d'abord
+//Contribue a eviter les deadlocks

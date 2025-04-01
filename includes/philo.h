@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: daniel149afonso <daniel149afonso@studen    +#+  +:+       +#+        */
+/*   By: daafonso <daafonso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 15:09:56 by daniel149af       #+#    #+#             */
-/*   Updated: 2025/03/30 19:33:06 by daniel149af      ###   ########.fr       */
+/*   Updated: 2025/04/01 21:01:25 by daafonso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,11 +46,10 @@ typedef struct s_fork
 typedef struct s_philo
 {
 	int					id;
-	long				meals_counter; //count nb meals eaten
-	long				last_meal_time;// time passed after last meal
+	long				meals_counter;
+	long				last_meal_time;
 	t_fork				*left_fork;
 	t_fork				*right_fork;
-	t_bool				full;//if philo has eaten the max meals dispensable
 	t_bool				*dead_routine;
 	t_bool				eating;
 	t_table				*table;
@@ -66,8 +65,8 @@ typedef struct s_table
 	long				time_to_sleep;
 	long				nb_limit_meals;
 	long long			start_time;
-	t_fork				*forks; // array forks
-	t_philo				*philos; //array philos
+	t_fork				*forks;
+	t_philo				*philos;
 	t_bool				dead_routine;
 	t_bool				mutex_initialized;
 	pthread_t			monitor_thread;

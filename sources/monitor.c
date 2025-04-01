@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   monitor.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: daniel149afonso <daniel149afonso@studen    +#+  +:+       +#+        */
+/*   By: daafonso <daafonso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 19:16:44 by daniel149af       #+#    #+#             */
-/*   Updated: 2025/03/31 01:17:45 by daniel149af      ###   ########.fr       */
+/*   Updated: 2025/04/01 20:26:23 by daafonso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,8 +91,7 @@ void	*monitor_routine(void *arg)
 	table = (t_table *)arg;
 	while (1)
 	{
-		if (check_death(table) || check_meals(table)
-			|| table->dead_routine == true)
+		if (check_death(table) || check_meals(table))
 			break ;
 	}
 	return (NULL);
