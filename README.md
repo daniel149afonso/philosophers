@@ -36,12 +36,12 @@ make re
 ####  🧹Pour nettoyer les .o uniquement :
 
 ```bash
-make
+make clean
 ```
 ####  🧹Pour nettoyer les .o et l'exécutable :
 
 ```bash
-make
+make fclean
 ```
 ####  🚀 Utilisation :
 
