@@ -16,9 +16,8 @@ L’objectif est de faire manger, penser et dormir des philosophes **sans qu’a
 ## 🗃️ Fichiers
 
 - `sources/` : tous les fichiers `.c` organisés
-- `objs/` : dossier de compilation des `.o`
 - `Makefile` : pour compiler automatiquement le projet
-- `philo.a` : l’exécutable généré
+- `philo` : l’exécutable généré
 
 ---
 
@@ -28,3 +27,33 @@ L’objectif est de faire manger, penser et dormir des philosophes **sans qu’a
 
 ```bash
 make
+```
+### ▶️ Pour recompiler le projet :
+
+```bash
+make re
+```
+###  🧹Pour nettoyer les .o uniquement :
+
+```bash
+make
+```
+###  🧹Pour nettoyer les .o et l'exécutable :
+
+```bash
+make
+```
+###  🚀 Utilisation :
+
+```bash
+./philo.a [number_of_philosophers] [time_to_die] [time_to_eat] [time_to_sleep] [number_of_times_each_philosopher_must_eat]
+
+```
+###  🧩 Paramètres :
+Argument|	Description
+number_of_philosophers:	Nombre de philosophes (et fourchettes)
+time_to_die:	Temps max sans manger avant la mort (en ms)
+time_to_eat:	Temps pour manger (en ms)
+time_to_sleep:	Temps pour dormir (en ms)
+number_of_times_each_philosopher_must_eat (optionnel):	Si fourni, la simulation se termine quand chaque philosophe a mangé ce nombre de fois
+
