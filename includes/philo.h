@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: daafonso <daafonso@student.42.fr>          +#+  +:+       +#+        */
+/*   By: daniel149afonso <daniel149afonso@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 15:09:56 by daniel149af       #+#    #+#             */
-/*   Updated: 2025/04/01 21:01:25 by daafonso         ###   ########.fr       */
+/*   Updated: 2025/04/02 03:48:28 by daniel149af      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,7 @@ typedef enum s_bool
 //FORK
 typedef struct s_fork
 {
-	int				fork_id;
-	pthread_mutex_t	mutex;
+
 }	t_fork;
 
 //PHILO
@@ -70,6 +69,8 @@ typedef struct s_table
 	t_bool				dead_routine;
 	t_bool				mutex_initialized;
 	pthread_t			monitor_thread;
+	pthread_mutex_t		left_mutex;
+	pthread_mutex_t		right_mutex;
 	pthread_mutex_t		death_mutex;
 	pthread_mutex_t		meal_mutex;
 	pthread_mutex_t		write_mutex;

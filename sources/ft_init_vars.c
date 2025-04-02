@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_init_vars.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: daafonso <daafonso@student.42.fr>          +#+  +:+       +#+        */
+/*   By: daniel149afonso <daniel149afonso@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 18:49:16 by daniel149af       #+#    #+#             */
-/*   Updated: 2025/04/01 20:14:49 by daafonso         ###   ########.fr       */
+/*   Updated: 2025/04/02 03:41:38 by daniel149af      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,15 +30,8 @@ int	ft_init_table(t_table **table, char **argv, int argc)
 
 void	ft_init_forks_and_mutexes(t_table *table)
 {
-	int	i;
-
-	i = 0;
-	while (i < table->nb_philos)
-	{
-		table->forks[i].fork_id = i;
-		pthread_mutex_init(&table->forks[i].mutex, NULL);
-		i++;
-	}
+	pthread_mutex_init(&table->left_mutex, NULL);
+	pthread_mutex_init(&table->right_mutex, NULL);
 	pthread_mutex_init(&table->meal_mutex, NULL);
 	pthread_mutex_init(&table->death_mutex, NULL);
 	pthread_mutex_init(&table->write_mutex, NULL);
