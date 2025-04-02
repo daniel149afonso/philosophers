@@ -6,7 +6,7 @@
 /*   By: daniel149afonso <daniel149afonso@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 15:09:56 by daniel149af       #+#    #+#             */
-/*   Updated: 2025/04/02 03:48:28 by daniel149af      ###   ########.fr       */
+/*   Updated: 2025/04/02 17:40:44 by daniel149af      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,24 +35,18 @@ typedef enum s_bool
 	true
 }	t_bool;
 
-//FORK
-typedef struct s_fork
-{
-
-}	t_fork;
-
 //PHILO
 typedef struct s_philo
 {
 	int					id;
 	long				meals_counter;
 	long				last_meal_time;
-	t_fork				*left_fork;
-	t_fork				*right_fork;
 	t_bool				*dead_routine;
 	t_bool				eating;
 	t_table				*table;
 	pthread_t			thread_id;
+	pthread_mutex_t		*left_fork;
+	pthread_mutex_t		*right_fork;
 }	t_philo;
 
 //TABLE
@@ -64,13 +58,11 @@ typedef struct s_table
 	long				time_to_sleep;
 	long				nb_limit_meals;
 	long long			start_time;
-	t_fork				*forks;
 	t_philo				*philos;
 	t_bool				dead_routine;
 	t_bool				mutex_initialized;
 	pthread_t			monitor_thread;
-	pthread_mutex_t		left_mutex;
-	pthread_mutex_t		right_mutex;
+	pthread_mutex_t		*forks;
 	pthread_mutex_t		death_mutex;
 	pthread_mutex_t		meal_mutex;
 	pthread_mutex_t		write_mutex;

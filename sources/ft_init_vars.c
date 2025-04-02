@@ -6,7 +6,7 @@
 /*   By: daniel149afonso <daniel149afonso@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 18:49:16 by daniel149af       #+#    #+#             */
-/*   Updated: 2025/04/02 03:41:38 by daniel149af      ###   ########.fr       */
+/*   Updated: 2025/04/02 17:49:00 by daniel149af      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,14 @@ int	ft_init_table(t_table **table, char **argv, int argc)
 
 void	ft_init_forks_and_mutexes(t_table *table)
 {
-	pthread_mutex_init(&table->left_mutex, NULL);
-	pthread_mutex_init(&table->right_mutex, NULL);
+	int	i;
+
+	i = 0;
+	while (i < table->nb_philos)
+	{
+		pthread_mutex_init(&table->forks[i], NULL);
+		i++;
+	}
 	pthread_mutex_init(&table->meal_mutex, NULL);
 	pthread_mutex_init(&table->death_mutex, NULL);
 	pthread_mutex_init(&table->write_mutex, NULL);
