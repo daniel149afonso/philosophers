@@ -6,7 +6,7 @@
 /*   By: daniel149afonso <daniel149afonso@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 15:09:56 by daniel149af       #+#    #+#             */
-/*   Updated: 2025/04/03 16:28:14 by daniel149af      ###   ########.fr       */
+/*   Updated: 2025/04/03 22:13:32 by daniel149af      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,9 @@
 //PREVIOUS DEFINITION OF TABLE: because not init in t_philo struct
 typedef struct s_table	t_table;
 
+//REDEFINITION OF MUTEX: because is shorter to use
+typedef pthread_mutex_t	t_mutex;
+
 //BOOL
 typedef enum s_bool
 {
@@ -38,7 +41,7 @@ typedef enum s_bool
 //FORKS
 typedef struct s_fork
 {
-	pthread_mutex_t	mutex;
+	t_mutex	mutex;
 }	t_fork;
 
 //PHILO
@@ -47,31 +50,31 @@ typedef struct s_philo
 	int					id;
 	long				meals_counter;
 	long				last_meal_time;
-	t_bool				*dead_routine;
-	t_bool				eating;
-	t_table				*table;
-	pthread_t			thread_id;
 	t_fork				*left_fork;
 	t_fork				*right_fork;
+	t_table				*table;
+	t_bool				*dead_routine;
+	t_bool				eating;
+	pthread_t			thread_id;
 }	t_philo;
 
 //TABLE
 typedef struct s_table
 {
-	long				nb_philos;
-	long				time_to_die;
-	long				time_to_eat;
-	long				time_to_sleep;
-	long				nb_limit_meals;
-	long long			start_time;
-	t_philo				*philos;
-	t_bool				dead_routine;
-	t_bool				mutex_initialized;
-	pthread_t			monitor_thread;
-	t_fork				*forks;
-	pthread_mutex_t		death_mutex;
-	pthread_mutex_t		meal_mutex;
-	pthread_mutex_t		write_mutex;
+	long		nb_philos;
+	long		time_to_die;
+	long		time_to_eat;
+	long		time_to_sleep;
+	long		nb_limit_meals;
+	long long	start_time;
+	t_fork		*forks;
+	t_philo		*philos;
+	pthread_t	monitor_thread;
+	t_mutex		death_mutex;
+	t_mutex		meal_mutex;
+	t_mutex		write_mutex;
+	t_bool		dead_routine;
+	t_bool		mutex_initialized;
 }	t_table;
 
 //MAIN

@@ -6,7 +6,7 @@
 /*   By: daniel149afonso <daniel149afonso@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 18:49:16 by daniel149af       #+#    #+#             */
-/*   Updated: 2025/04/03 16:30:18 by daniel149af      ###   ########.fr       */
+/*   Updated: 2025/04/04 01:17:49 by daniel149af      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,6 @@ void	ft_init_philos(t_table *table)
 		table->philos[i].left_fork = &table->forks[i];
 		table->philos[i].right_fork = &table->forks[(i + 1) % table->nb_philos];
 		table->philos[i].table = table;
-		// printf("%d: %p\n", i, table->philos[i].left_fork);
-		// printf("%ld: %p\n", (i + 1) % table->nb_philos, table->philos[i].right_fork);
 		i++;
 	}
 }
