@@ -6,7 +6,7 @@
 /*   By: daniel149afonso <daniel149afonso@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 22:27:35 by daafonso          #+#    #+#             */
-/*   Updated: 2025/04/02 18:28:51 by daniel149af      ###   ########.fr       */
+/*   Updated: 2025/04/03 03:06:12 by daniel149af      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,10 @@ void	dream(t_philo *philo)
 void	eat(t_philo *philo)
 {
 	//ajouter condition pour un philo + changer la structure des fork et mutex
+	printf("Philo %d locking fork left = %p\n", philo->id, (void *)philo->left_fork);
 	pthread_mutex_lock(philo->left_fork);
 	handle_message("has taken the left fork 🍴", philo, philo->id);
+	printf("Philo %d locking fork right = %p\n", philo->id, (void *)philo->right_fork);
 	pthread_mutex_lock(philo->right_fork);
 	handle_message("has taken the right fork 🍴", philo, philo->id);
 	pthread_mutex_lock(&philo->table->meal_mutex);
