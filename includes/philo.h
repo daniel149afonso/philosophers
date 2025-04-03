@@ -6,7 +6,7 @@
 /*   By: daniel149afonso <daniel149afonso@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 15:09:56 by daniel149af       #+#    #+#             */
-/*   Updated: 2025/04/02 17:40:44 by daniel149af      ###   ########.fr       */
+/*   Updated: 2025/04/03 16:28:14 by daniel149af      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,12 @@ typedef enum s_bool
 	true
 }	t_bool;
 
+//FORKS
+typedef struct s_fork
+{
+	pthread_mutex_t	mutex;
+}	t_fork;
+
 //PHILO
 typedef struct s_philo
 {
@@ -45,8 +51,8 @@ typedef struct s_philo
 	t_bool				eating;
 	t_table				*table;
 	pthread_t			thread_id;
-	pthread_mutex_t		*left_fork;
-	pthread_mutex_t		*right_fork;
+	t_fork				*left_fork;
+	t_fork				*right_fork;
 }	t_philo;
 
 //TABLE
@@ -62,7 +68,7 @@ typedef struct s_table
 	t_bool				dead_routine;
 	t_bool				mutex_initialized;
 	pthread_t			monitor_thread;
-	pthread_mutex_t		*forks;
+	t_fork				*forks;
 	pthread_mutex_t		death_mutex;
 	pthread_mutex_t		meal_mutex;
 	pthread_mutex_t		write_mutex;
@@ -74,7 +80,8 @@ void	*start_routine(void *arg);
 //INIT
 int		ft_init_table(t_table **table, char **argv, int argc);
 void	ft_init_forks_and_mutexes(t_table *table);
-void	ft_init_philos_and_threads(t_table *table);
+void	ft_init_philos(t_table *table);
+void	ft_create_thread(t_table *table);
 void	ft_join_threads(t_table *table);
 
 //ROUTINE ACTIONS

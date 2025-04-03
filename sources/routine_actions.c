@@ -6,7 +6,7 @@
 /*   By: daniel149afonso <daniel149afonso@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 22:27:35 by daafonso          #+#    #+#             */
-/*   Updated: 2025/04/03 03:06:12 by daniel149af      ###   ########.fr       */
+/*   Updated: 2025/04/03 16:30:09 by daniel149af      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,11 +47,9 @@ void	dream(t_philo *philo)
 void	eat(t_philo *philo)
 {
 	//ajouter condition pour un philo + changer la structure des fork et mutex
-	printf("Philo %d locking fork left = %p\n", philo->id, (void *)philo->left_fork);
-	pthread_mutex_lock(philo->left_fork);
+	pthread_mutex_lock(&philo->left_fork->mutex);
 	handle_message("has taken the left fork 🍴", philo, philo->id);
-	printf("Philo %d locking fork right = %p\n", philo->id, (void *)philo->right_fork);
-	pthread_mutex_lock(philo->right_fork);
+	pthread_mutex_lock(&philo->right_fork->mutex);
 	handle_message("has taken the right fork 🍴", philo, philo->id);
 	pthread_mutex_lock(&philo->table->meal_mutex);
 	philo->eating = true;
@@ -60,8 +58,8 @@ void	eat(t_philo *philo)
 	pthread_mutex_unlock(&philo->table->meal_mutex);
 	handle_message("is eating 🍝", philo, philo->id);
 	ft_usleep(philo->table->time_to_eat);
-	pthread_mutex_unlock(philo->left_fork);
-	pthread_mutex_unlock(philo->right_fork);
+	pthread_mutex_unlock(&philo->left_fork->mutex);
+	pthread_mutex_unlock(&philo->right_fork->mutex);
 	pthread_mutex_lock(&philo->table->meal_mutex);
 	philo->eating = false;
 	pthread_mutex_unlock(&philo->table->meal_mutex);

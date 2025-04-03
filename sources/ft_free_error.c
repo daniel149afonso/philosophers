@@ -6,7 +6,7 @@
 /*   By: daniel149afonso <daniel149afonso@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 19:10:38 by daniel149af       #+#    #+#             */
-/*   Updated: 2025/04/02 18:26:31 by daniel149af      ###   ########.fr       */
+/*   Updated: 2025/04/03 16:28:36 by daniel149af      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@ void	ft_free_table(t_table *table);
 
 int	ft_error(char *msg, t_table *table)
 {
-	ft_free_table(table);
 	printf("%s", msg);
+	ft_free_table(table);
 	return (1);
 }
 
@@ -43,7 +43,7 @@ void	ft_destroy_mutex(t_table *table)
 	{
 		while (i < table->nb_philos)
 		{
-			pthread_mutex_destroy(&table->forks[i]);
+			pthread_mutex_destroy(&table->forks[i].mutex);
 			i++;
 		}
 		pthread_mutex_destroy(&table->meal_mutex);

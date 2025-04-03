@@ -6,7 +6,7 @@
 /*   By: daniel149afonso <daniel149afonso@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 15:09:20 by daniel149af       #+#    #+#             */
-/*   Updated: 2025/04/03 03:32:27 by daniel149af      ###   ########.fr       */
+/*   Updated: 2025/04/03 16:10:12 by daniel149af      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,17 +42,8 @@ int	main(int argc, char **argv)
 	if (ft_parsing(argv, table) || ft_init_table(&table, argv, argc))
 		return (1);
 	ft_init_forks_and_mutexes(table);
-	ft_init_philos_and_threads(table);
-	int i = 0;
-	while (i < table->nb_philos)
-	{
-		if (pthread_create(&table->philos[i].thread_id, NULL, \
-			&start_routine, &table->philos[i]))
-			ft_error("Error: Failed to create thread", table);
-		i++;
-	}
-	if (pthread_create(&table->monitor_thread, NULL, &monitor_routine, table))
-		ft_error("Error: Failed to create thread", table);
+	ft_init_philos(table);
+	ft_create_thread(table);
 	ft_join_threads(table);
 	ft_free_table(table);
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: daniel149afonso <daniel149afonso@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 18:49:16 by daniel149af       #+#    #+#             */
-/*   Updated: 2025/04/03 03:31:16 by daniel149af      ###   ########.fr       */
+/*   Updated: 2025/04/03 16:30:18 by daniel149af      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,15 +30,13 @@ int	ft_init_table(t_table **table, char **argv, int argc)
 
 void	ft_init_forks_and_mutexes(t_table *table)
 {
-	// int	i;
+	int	i;
 
-	// i = 0;
-	for (int i = 0; i < table->nb_philos; i++)
+	i = 0;
+	while (i < table->nb_philos)
 	{
-		if (pthread_mutex_init(&table->forks[i], NULL) != 0)
-			printf("⚠️ Mutex init FAILED pour fork[%d] = %p\n", i, (void *)&table->forks[i]);
-		else
-			printf("✅ Mutex init OK pour fork[%d] = %p\n", i, (void *)&table->forks[i]);
+		pthread_mutex_init(&table->forks[i].mutex, NULL);
+		i++;
 	}
 	pthread_mutex_init(&table->meal_mutex, NULL);
 	pthread_mutex_init(&table->death_mutex, NULL);
@@ -46,7 +44,7 @@ void	ft_init_forks_and_mutexes(t_table *table)
 	table->mutex_initialized = true;
 }
 
-void	ft_init_philos_and_threads(t_table *table)
+void	ft_init_philos(t_table *table)
 {
 	int	i;
 
@@ -55,14 +53,33 @@ void	ft_init_philos_and_threads(t_table *table)
 	while (i < table->nb_philos)
 	{
 		table->philos[i].id = i + 1;
-		table->philos[i].left_fork = &table->forks[i];
-		table->philos[i].right_fork = &table->forks[(i + 1) % table->nb_philos];
+		table->philos[i].eating = false;
+		table->philos[i].meals_counter = 0;
 		table->philos[i].last_meal_time = get_current_time_ms();
 		table->philos[i].dead_routine = &table->dead_routine;
+		table->philos[i].left_fork = &table->forks[i];
+		table->philos[i].right_fork = &table->forks[(i + 1) % table->nb_philos];
 		table->philos[i].table = table;
+		// printf("%d: %p\n", i, table->philos[i].left_fork);
+		// printf("%ld: %p\n", (i + 1) % table->nb_philos, table->philos[i].right_fork);
 		i++;
 	}
-	
+}
+
+void	ft_create_thread(t_table *table)
+{
+	int	i;
+
+	i = 0;
+	while (i < table->nb_philos)
+	{
+		if (pthread_create(&table->philos[i].thread_id, NULL, \
+			&start_routine, &table->philos[i]))
+			ft_error("Error: Failed to create philo thread", table);
+		i++;
+	}
+	if (pthread_create(&table->monitor_thread, NULL, &monitor_routine, table))
+		ft_error("Error: Failed to create monitor thread", table);
 }
 
 void	ft_join_threads(t_table *table)

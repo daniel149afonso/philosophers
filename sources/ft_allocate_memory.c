@@ -6,7 +6,7 @@
 /*   By: daniel149afonso <daniel149afonso@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 17:54:12 by daafonso          #+#    #+#             */
-/*   Updated: 2025/04/03 02:39:53 by daniel149af      ###   ########.fr       */
+/*   Updated: 2025/04/03 16:28:23 by daniel149af      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,9 @@ int	ft_alloc_struct_in_table(t_table **table, long nb_philos)
 	if (!(*table))
 		return (ft_error("Error: Failed to allocate table\n", *table));
 	memset(*table, 0, sizeof(t_table));
-	(*table)->forks = malloc(sizeof(pthread_mutex_t) * nb_philos);
+	(*table)->forks = malloc(sizeof(t_fork) * nb_philos);
 	if (!(*table)->forks)
 		return (ft_error("Error: Failed to allocate fork array\n", *table));
-	for (int i = 0; i < nb_philos; i++)
-		printf("forks[%d] = %p\n", i, (void *)&(*table)->forks[i]);
 	(*table)->philos = malloc(sizeof(t_philo) * nb_philos);
 	if (!(*table)->philos)
 		return (ft_error("Error: Failed to allocate philo array\n", *table));
