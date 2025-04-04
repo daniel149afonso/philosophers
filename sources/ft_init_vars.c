@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_init_vars.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: daniel149afonso <daniel149afonso@studen    +#+  +:+       +#+        */
+/*   By: daafonso <daafonso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 18:49:16 by daniel149af       #+#    #+#             */
-/*   Updated: 2025/04/04 01:17:49 by daniel149af      ###   ########.fr       */
+/*   Updated: 2025/04/04 22:24:04 by daafonso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	ft_init_forks_and_mutexes(t_table *table)
 	i = 0;
 	while (i < table->nb_philos)
 	{
-		pthread_mutex_init(&table->forks[i].mutex, NULL);
+		pthread_mutex_init(&table->forks[i], NULL);
 		i++;
 	}
 	pthread_mutex_init(&table->meal_mutex, NULL);
@@ -57,9 +57,10 @@ void	ft_init_philos(t_table *table)
 		table->philos[i].meals_counter = 0;
 		table->philos[i].last_meal_time = get_current_time_ms();
 		table->philos[i].dead_routine = &table->dead_routine;
+		table->philos[i].table = table;
 		table->philos[i].left_fork = &table->forks[i];
 		table->philos[i].right_fork = &table->forks[(i + 1) % table->nb_philos];
-		table->philos[i].table = table;
+		table->philos[i].left_fork = &table->forks[i];
 		i++;
 	}
 }
