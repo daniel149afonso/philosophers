@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: daafonso <daafonso@student.42.fr>          +#+  +:+       +#+        */
+/*   By: daniel149afonso <daniel149afonso@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 15:09:20 by daniel149af       #+#    #+#             */
-/*   Updated: 2025/04/04 16:44:27 by daafonso         ###   ########.fr       */
+/*   Updated: 2025/04/09 17:49:35 by daniel149af      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	main(int argc, char **argv)
 	t_table	*table;
 
 	table = NULL;
-	if (argc < 5)
+	if (argc < 5 || argc > 6)
 	{
 		ft_error("Error: Only [number philosophers], [time_death], [time_eat],"
 			" [time_sleep], optional [number meals] are required!\n", table);

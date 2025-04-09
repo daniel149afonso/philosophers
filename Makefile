@@ -1,6 +1,6 @@
 # ================== VARIABLES ==================
 # Nom de l'exécutable
-NAME = philo.a
+NAME = philo
 
 # Dossier contenant les fichiers sources
 SRC_DIR = sources
