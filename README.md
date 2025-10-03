@@ -1,59 +1,60 @@
 # 🧠 Philosophers
 
-## 🧾 Description du projet
+## 🧾 Project Description
 
-Ce projet est une implémentation du **problème des philosophes** (Dining Philosophers Problem), un classique de la programmation concurrente. Il met en jeu :
+This project is an implementation of the **Dining Philosophers Problem**, a classic in concurrent programming. It involves:
 
-- Des **threads** (un par philosophe)
-- Des **mutex** (un par fourchette)
-- De la **synchronisation** pour éviter les blocages ou famine
-- Un **moniteur** qui surveille si un philosophe meurt
+- **Threads** (one per philosopher)  
+- **Mutexes** (one per fork)  
+- **Synchronization** to avoid deadlocks or starvation  
+- A **monitor** that checks if a philosopher dies  
 
-L’objectif est de faire manger, penser et dormir des philosophes **sans qu’aucun ne meure de faim** et **sans deadlock**.
+The goal is to make philosophers eat, think, and sleep **without anyone starving** and **without deadlock**.
 
 ---
 
-## 🗃️ Fichiers
+## 🗃️ Files
 
-- `sources/` : tous les fichiers `.c` organisés
-- `Makefile` : pour compiler automatiquement le projet
-- `philo` : l’exécutable généré
+- `sources/` : all the `.c` files organized  
+- `Makefile` : to automatically compile the project  
+- `philo` : the generated executable  
 
 ---
 
 ## ⚙️ Compilation
 
-#### ▶️ Pour compiler le projet :
+#### ▶️ To compile the project:
 
 ```bash
 make
 ```
-#### ▶️ Pour recompiler le projet :
+▶️ To recompile the project:
 
 ```bash
 make re
 ```
-####  🧹Pour nettoyer les .o uniquement :
+🧹 To clean only .o files:
 
 ```bash
 make clean
 ```
-####  🧹Pour nettoyer les .o et l'exécutable :
+🧹 To clean .o files and the executable:
 
 ```bash
 make fclean
 ```
-####  🚀 Utilisation :
+####  🚀 Usage :
 
 ```bash
 ./philo.a [number_of_philosophers] [time_to_die] [time_to_eat] [time_to_sleep] [number_of_times_each_philosopher_must_eat]
 
 ```
-###  🧩 Paramètres :
-Argument |	Description
-number_of_philosophers:	Nombre de philosophes (et fourchettes)
-time_to_die:	Temps max sans manger avant la mort (en ms)
-time_to_eat:	Temps pour manger (en ms)
-time_to_sleep:	Temps pour dormir (en ms)
-number_of_times_each_philosopher_must_eat (optionnel):	Si fourni, la simulation se termine quand chaque philosophe a mangé ce nombre de fois
+###  🧩 Parameters :
+
+number_of_philosophers	Number of philosophers (and forks)
+time_to_die	Max time without eating before death (in ms)
+time_to_eat	Time to eat (in ms)
+time_to_sleep	Time to sleep (in ms)
+number_of_times_each_philosopher_must_eat (optional)	If provided, the simulation ends when each philosopher has eaten this many times
+
 
